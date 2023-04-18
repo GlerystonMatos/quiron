@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Quiron.Repositorie\Quiron.Data.csproj" />
+    <ProjectReference Include="..\Quiron.Service\Quiron.Service.csproj" />
+  </ItemGroup>
+
+</Project>

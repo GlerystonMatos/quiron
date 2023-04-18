@@ -1,0 +1,22 @@
+﻿.swagger-ui .scheme-container {
+    margin: 0px;
+    padding: 0px;
+    background: none;
+    box-shadow: none;
+}
+
+.swagger-ui .topbar .download-url-wrapper .select-label {
+    display: none;
+}
+
+.swagger-ui .info {
+    margin-bottom: 0px;
+}
+
+img[alt="Swagger UI"] {
+    content: url('../images/quiron.png');
+}
+
+.swagger-ui .topbar {
+    background-color: #363636;
+}
