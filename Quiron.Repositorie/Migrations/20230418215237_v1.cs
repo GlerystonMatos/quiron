@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace Quiron.Data.Migrations
+namespace Quiron.Data.EF.Migrations
 {
     /// <inheritdoc />
     public partial class v1 : Migration

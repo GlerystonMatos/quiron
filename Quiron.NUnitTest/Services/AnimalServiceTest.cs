@@ -4,7 +4,9 @@ using NUnit.Framework;
 using Quiron.Domain.Dto;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
+using Quiron.Domain.Interfaces.Queries;
 using Quiron.Domain.Interfaces.Services;
+using Quiron.Domain.Tenant;
 using Quiron.NUnitTest.Utilitarios;
 using Quiron.Service.Services;
 
@@ -13,14 +15,18 @@ namespace Quiron.NUnitTest.Services
     public class AnimalServiceTest
     {
         private IMapper _mapper;
+        private ITenantService _tenantService;
         private IAnimalService _animalService;
+        private Mock<IAnimalQuery> _animalQuery;
         private Mock<IAnimalRepository> _animalRepository;
 
         public AnimalServiceTest()
         {
             _mapper = Mapeador.GetMapper();
+            _tenantService = Tenant.GetTenant();
+            _animalQuery = new Mock<IAnimalQuery>();
             _animalRepository = new Mock<IAnimalRepository>();
-            _animalService = new AnimalService(_mapper, _animalRepository.Object);
+            _animalService = new AnimalService(_mapper, _tenantService, _animalQuery.Object, _animalRepository.Object);
         }
 
         [Test]
@@ -65,6 +71,22 @@ namespace Quiron.NUnitTest.Services
 
             _animalRepository.Setup(r => r.PesquisarPorId(animal.Id)).Returns(animal);
             Assert.IsNotNull(_animalService.PesquisarPorId(animal.Id));
+        }
+
+        [Test]
+        public void ObterTodosPorNomeTest()
+        {
+            Animal animal = new Animal(Guid.NewGuid(), "Babuíno");
+
+            IList<Animal> animais = new List<Animal>();
+            animais.Add(animal);
+
+            string nome = "Babuíno";
+
+            TenantConfiguration tenant = _tenantService.Get();
+
+            _animalQuery.Setup(r => r.ObterTodosPorNome(tenant.ConnectionStringDados, nome)).Returns(animais);
+            Assert.IsNotNull(_animalService.ObterTodosPorNome(nome));
         }
     }
 }

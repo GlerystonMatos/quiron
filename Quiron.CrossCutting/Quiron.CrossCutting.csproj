@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Quiron.Repositorie\Quiron.Data.csproj" />
+    <ProjectReference Include="..\Quiron.Data.Dapper\Quiron.Data.Dapper.csproj" />
+    <ProjectReference Include="..\Quiron.Repositorie\Quiron.Data.EF.csproj" />
     <ProjectReference Include="..\Quiron.Service\Quiron.Service.csproj" />
   </ItemGroup>
 

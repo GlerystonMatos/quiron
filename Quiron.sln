@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.Api", "Quiron.Api\Qu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.Service", "Quiron.Service\Quiron.Service.csproj", "{5DCEE9C8-C6FE-4CF0-A361-A51A0434C9C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.Data", "Quiron.Repositorie\Quiron.Data.csproj", "{2FE6A37F-EAA1-4B20-B829-00EB6AD55B0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.Data.EF", "Quiron.Repositorie\Quiron.Data.EF.csproj", "{2FE6A37F-EAA1-4B20-B829-00EB6AD55B0C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.Domain", "Quiron.Domain\Quiron.Domain.csproj", "{0B7B0E5C-7341-47A8-A7E9-724BFCF003A5}"
 EndProject
@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.Auditoria", "Quiron.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5-Test", "5-Test", "{24EF1A69-DAEB-490C-92CA-6614C2BB8413}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quiron.NUnitTest", "Quiron.NUnitTest\Quiron.NUnitTest.csproj", "{B159F5E8-5753-4099-8C54-B3442BA0FD01}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.NUnitTest", "Quiron.NUnitTest\Quiron.NUnitTest.csproj", "{B159F5E8-5753-4099-8C54-B3442BA0FD01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quiron.Data.Dapper", "Quiron.Data.Dapper\Quiron.Data.Dapper.csproj", "{CC4F11C8-4EC3-4C31-B760-F615DF155073}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{B159F5E8-5753-4099-8C54-B3442BA0FD01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B159F5E8-5753-4099-8C54-B3442BA0FD01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B159F5E8-5753-4099-8C54-B3442BA0FD01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC4F11C8-4EC3-4C31-B760-F615DF155073}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC4F11C8-4EC3-4C31-B760-F615DF155073}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC4F11C8-4EC3-4C31-B760-F615DF155073}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC4F11C8-4EC3-4C31-B760-F615DF155073}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{23B31715-AF4F-4E37-9DB6-59BBEFEAB874} = {A3E34A75-8765-49F5-81EE-8FA983527479}
 		{8438A279-5F4C-42C8-A2F9-5B4A63ADB7FE} = {A3E34A75-8765-49F5-81EE-8FA983527479}
 		{B159F5E8-5753-4099-8C54-B3442BA0FD01} = {24EF1A69-DAEB-490C-92CA-6614C2BB8413}
+		{CC4F11C8-4EC3-4C31-B760-F615DF155073} = {A3E34A75-8765-49F5-81EE-8FA983527479}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {893766FB-9CCC-48A5-AA14-73A422618107}

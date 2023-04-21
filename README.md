@@ -13,4 +13,5 @@ Moq<br>
 Documentação com Swagger<br>
 Multi-Tenancy com bases de dados separadas<br>
 Interceptor<br>
-ReportGenerator
+ReportGenerator<br>
+Dapper

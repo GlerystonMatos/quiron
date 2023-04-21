@@ -10,6 +10,8 @@ namespace Quiron.CrossCutting
         {
             services.AddScoped<ITenantService, TenantService>();
             services.AddScoped<IAnimalService, AnimalService>();
+            services.AddScoped<ICidadeService, CidadeService>();
+            services.AddScoped<IEstadoService, EstadoService>();
             services.AddScoped<IUsuarioService, UsuarioService>();
         }
     }

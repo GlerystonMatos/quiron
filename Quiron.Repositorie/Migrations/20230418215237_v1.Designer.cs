@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Quiron.Data.Context;
+using Quiron.Data.EF.Context;
 
 #nullable disable
 
-namespace Quiron.Data.Migrations
+namespace Quiron.Data.EF.Migrations
 {
     [DbContext(typeof(QuironContext))]
     [Migration("20230418215237_v1")]

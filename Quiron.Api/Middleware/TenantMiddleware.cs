@@ -39,10 +39,13 @@ namespace Quiron.Api.Middleware
                 user = clain.Value;
             }
 
-            _tenantService.Set(tenant);
-            _tenantService.SetUser(user);
-            _logger.LogInformation("User: " + user);
-            _logger.LogInformation("Tenant: " + tenant.Name);
+            if (tenant != null)
+            {
+                _tenantService.Set(tenant);
+                _tenantService.SetUser(user);
+                _logger.LogInformation("User: " + user);
+                _logger.LogInformation("Tenant: " + tenant.Name);
+            }
 
             return Task.CompletedTask;
         }

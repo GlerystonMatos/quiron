@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Quiron.Data.Repositories;
+using Quiron.Data.EF.Repositories;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
 using Quiron.NUnitTest.Utilitarios;

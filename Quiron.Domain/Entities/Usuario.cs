@@ -5,6 +5,9 @@ namespace Quiron.Domain.Entities
 {
     public class Usuario : Entity
     {
+        public Usuario()
+            => Id = Guid.NewGuid();
+
         public Usuario(Guid id, string nome, string login, string senha)
         {
             Id = id;

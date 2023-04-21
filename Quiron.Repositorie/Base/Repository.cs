@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Quiron.Data.Context;
+using Quiron.Data.EF.Context;
 using Quiron.Domain.Entities.Base;
 using Quiron.Domain.Interfaces.Base;
 using System;
 using System.Linq;
 
-namespace Quiron.Data.Base
+namespace Quiron.Data.EF.Base
 {
     public abstract class Repository<TModel> : IRepository<TModel> where TModel : Entity
     {

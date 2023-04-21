@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Quiron.Data.Repositories;
+using Quiron.Data.EF.Repositories;
 using Quiron.Domain.Interfaces.Data;
 
 namespace Quiron.CrossCutting
@@ -9,6 +9,8 @@ namespace Quiron.CrossCutting
         public static void RegisterRepository(this IServiceCollection services)
         {
             services.AddScoped<IAnimalRepository, AnimalRepository>();
+            services.AddScoped<ICidadeRepository, CidadeRepository>();
+            services.AddScoped<IEstadoRepository, EstadoRepository>();
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
         }
     }

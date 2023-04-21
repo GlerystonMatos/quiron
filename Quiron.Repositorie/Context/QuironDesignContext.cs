@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Quiron.Service.Services;
 
-namespace Quiron.Data.Context
+namespace Quiron.Data.EF.Context
 {
     public class DesignQuironContext : IDesignTimeDbContextFactory<QuironContext>
     {

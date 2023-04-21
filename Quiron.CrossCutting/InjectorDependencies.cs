@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Quiron.Data.Context;
+using Quiron.Data.EF.Context;
 
 namespace Quiron.CrossCutting
 {
@@ -10,6 +10,7 @@ namespace Quiron.CrossCutting
             services.AddDbContext<QuironContext>();
             services.RegisterRepository();
             services.RegisterService();
+            services.RegisterQuery();
         }
     }
 }

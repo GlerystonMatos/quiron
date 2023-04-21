@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Design;
-using Quiron.Auditoria.Context;
 
-namespace Quiron.Data.Context
+namespace Quiron.Auditoria.Context
 {
     public class AuditoriaDesignContext : IDesignTimeDbContextFactory<AuditoriaContext>
     {

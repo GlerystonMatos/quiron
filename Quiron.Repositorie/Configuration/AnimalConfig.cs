@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Quiron.Domain.Entities;
 
-namespace Quiron.Data.Configuration
+namespace Quiron.Data.EF.Configuration
 {
     public class AnimalConfig : IEntityTypeConfiguration<Animal>
     {

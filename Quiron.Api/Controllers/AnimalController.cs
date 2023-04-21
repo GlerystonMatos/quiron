@@ -5,6 +5,7 @@ using Quiron.Domain.Dto;
 using Quiron.Domain.Exception;
 using Quiron.Domain.Interfaces.Services;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Quiron.Api.Controllers
@@ -30,6 +31,18 @@ namespace Quiron.Api.Controllers
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
         public IActionResult Get()
             => Ok(_animalService.ObterTodos());
+
+        /// <summary>
+        /// Consulta por nome
+        /// </summary>
+        /// <param name="nome"></param>
+        /// <response code="200">Consulta realizada com sucesso.</response>
+        /// <response code="400">Não foi possível realizar a consulta.</response>
+        [HttpGet("{nome}")]
+        [ProducesResponseType(typeof(IList<AnimalDto>), 200)]
+        [ProducesResponseType(typeof(ExceptionMessage), 400)]
+        public IActionResult ObterTodosPorNome(string nome)
+            => Ok(_animalService.ObterTodosPorNome(nome));
 
         /// <summary>
         /// Criar

@@ -5,6 +5,9 @@ namespace Quiron.Domain.Entities
 {
     public class Animal : Entity
     {
+        public Animal()
+            => Id = Guid.NewGuid();
+
         public Animal(Guid id, string nome)
         {
             Id = id;

@@ -11,6 +11,8 @@ namespace Quiron.Api.Configuracoes
             ODataConventionModelBuilder odataBuilder = new ODataConventionModelBuilder();
 
             odataBuilder.EntitySet<AnimalDto>("Animal");
+            odataBuilder.EntitySet<EstadoDto>("Estado");
+            odataBuilder.EntitySet<CidadeDto>("Cidade");
             odataBuilder.EntitySet<UsuarioDto>("Usuario");
 
             return odataBuilder.GetEdmModel();
