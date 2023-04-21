@@ -1,7 +1,7 @@
-# <img alt="quiron" height="20" src="./logo.png"> quiron_new
+# <img alt="quiron" height="40" src="./logo.png" style="margin-bottom: -9px !important"> Quiron_new
 Projeto para desenvolver os conhecimentos em C# e .NET Core.
 
-# ⚙️ Recursos
+# ⚙️ Recursos:
 ![C#](https://img.shields.io/badge/Linguagem-C%23-lightblue)<br>
 ![.NET](https://img.shields.io/badge/Framework-.NET-purple)<br>
 ![AutoMapper](https://img.shields.io/badge/Biblioteca-AutoMapper-red)<br>
@@ -33,5 +33,5 @@ Projeto para desenvolver os conhecimentos em C# e .NET Core.
 glerystonmatos@yahoo.com.br<br/>
 glerystonmatos@gmail.com<br/>
 
-# ⚠️ Licença
+# ⚠️ Licença:
 `quiron` é um projeto livre e de código aberto licenciado sob a [MIT License](./LICENSE).
