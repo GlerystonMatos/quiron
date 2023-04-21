@@ -5,7 +5,7 @@ namespace Quiron.NUnitTest.Utilitarios
 {
     public class Tenant
     {
-        private static TenantService _tenantService = new TenantService();
+        private static TenantService? _tenantService;
 
         public static TenantService GetTenant()
         {
