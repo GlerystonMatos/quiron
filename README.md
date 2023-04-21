@@ -14,4 +14,6 @@ Documentação com Swagger<br>
 Multi-Tenancy com bases de dados separadas<br>
 Interceptor<br>
 ReportGenerator<br>
-Dapper
+Dapper<br>
+Docker<br>
+Docker-Compose

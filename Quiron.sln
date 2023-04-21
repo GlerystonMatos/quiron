@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.Api", "Quiron.Api\Qu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.Service", "Quiron.Service\Quiron.Service.csproj", "{5DCEE9C8-C6FE-4CF0-A361-A51A0434C9C5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.Data.EF", "Quiron.Repositorie\Quiron.Data.EF.csproj", "{2FE6A37F-EAA1-4B20-B829-00EB6AD55B0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.Data.EF", "Quiron.Data.EF\Quiron.Data.EF.csproj", "{2FE6A37F-EAA1-4B20-B829-00EB6AD55B0C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Quiron.Domain", "Quiron.Domain\Quiron.Domain.csproj", "{0B7B0E5C-7341-47A8-A7E9-724BFCF003A5}"
 EndProject
