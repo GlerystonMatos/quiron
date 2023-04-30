@@ -2,7 +2,7 @@
 using Quiron.Domain.Interfaces.Services;
 using Quiron.Service.Services;
 
-namespace Quiron.CrossCutting
+namespace Quiron.Api.Dependencies
 {
     public static class InjectorService
     {

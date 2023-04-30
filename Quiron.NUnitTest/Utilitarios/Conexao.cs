@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Quiron.Data.EF.Context;
-using Quiron.Service.Services;
+using Quiron.Domain.Interfaces.Services;
 
 namespace Quiron.NUnitTest.Utilitarios
 {
@@ -18,7 +18,7 @@ namespace Quiron.NUnitTest.Utilitarios
                 LoggerFactory loggerFactory = new LoggerFactory();
                 ILogger<QuironContext> logger = loggerFactory.CreateLogger<QuironContext>();
 
-                TenantService tenantService = Tenant.GetTenant();
+                ITenantService tenantService = Tenant.Get();
                 _quironContext = new QuironContext(optionsDados, tenantService, logger);
 
                 DBInitializer quironDBInitializer = new DBInitializer();

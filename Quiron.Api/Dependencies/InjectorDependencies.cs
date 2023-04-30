@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Quiron.Data.EF.Context;
 
-namespace Quiron.CrossCutting
+namespace Quiron.Api.Dependencies
 {
     public static class InjectorDependencies
     {

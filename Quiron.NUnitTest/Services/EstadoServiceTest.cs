@@ -22,8 +22,8 @@ namespace Quiron.NUnitTest.Services
 
         public EstadoServiceTest()
         {
+            _tenantService = Tenant.Get();
             _mapper = Mapeador.GetMapper();
-            _tenantService = Tenant.GetTenant();
             _estadoQuery = new Mock<IEstadoQuery>();
             _estadoRepository = new Mock<IEstadoRepository>();
             _estadoService = new EstadoService(_mapper, _tenantService, _estadoQuery.Object, _estadoRepository.Object);
@@ -45,10 +45,7 @@ namespace Quiron.NUnitTest.Services
 
         [Test]
         public void RemoverTest()
-        {
-            EstadoDto estado = new EstadoDto();
-            Assert.DoesNotThrow(() => _estadoService.Remover(estado));
-        }
+            => Assert.DoesNotThrow(() => _estadoService.Remover(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -69,7 +66,7 @@ namespace Quiron.NUnitTest.Services
         {
             Estado estado = new Estado(Guid.NewGuid(), "Ceará", "CE");
 
-            _estadoRepository.Setup(r => r.PesquisarPorId(estado.Id)).Returns(estado);
+            _estadoRepository.Setup(r => r.PesquisarPorId(estado.Id)).ReturnsAsync(estado);
             Assert.IsNotNull(_estadoService.PesquisarPorId(estado.Id));
         }
 
@@ -85,7 +82,7 @@ namespace Quiron.NUnitTest.Services
 
             TenantConfiguration tenant = _tenantService.Get();
 
-            _estadoQuery.Setup(r => r.ObterTodosPorUf(tenant.ConnectionStringDados, uf)).Returns(estados);
+            _estadoQuery.Setup(r => r.ObterTodosPorUf(tenant.ConnectionStringDados, uf)).ReturnsAsync(estados.ToArray());
             Assert.IsNotNull(_estadoService.ObterTodosPorUf(uf));
         }
     }

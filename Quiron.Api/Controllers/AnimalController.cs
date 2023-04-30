@@ -5,8 +5,8 @@ using Quiron.Domain.Dto;
 using Quiron.Domain.Exception;
 using Quiron.Domain.Interfaces.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Quiron.Api.Controllers
 {
@@ -39,10 +39,10 @@ namespace Quiron.Api.Controllers
         /// <response code="200">Consulta realizada com sucesso.</response>
         /// <response code="400">Não foi possível realizar a consulta.</response>
         [HttpGet("{nome}")]
-        [ProducesResponseType(typeof(IList<AnimalDto>), 200)]
+        [ProducesResponseType(typeof(AnimalDto[]), 200)]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult ObterTodosPorNome(string nome)
-            => Ok(_animalService.ObterTodosPorNome(nome));
+        public async Task<IActionResult> ObterTodosPorNome(string nome)
+            => Ok(await _animalService.ObterTodosPorNome(nome));
 
         /// <summary>
         /// Criar
@@ -52,14 +52,14 @@ namespace Quiron.Api.Controllers
         /// <response code="400">Não foi possível criar.</response>
         [HttpPost]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult Post(AnimalDto animal)
+        public async Task<IActionResult> Post(AnimalDto animal)
         {
             if (!ModelState.IsValid)
             {
                 throw new QuironException("Os dados para criação são inválidos.");
             }
 
-            _animalService.Criar(animal);
+            await _animalService.Criar(animal);
             return Ok();
         }
 
@@ -72,19 +72,19 @@ namespace Quiron.Api.Controllers
         /// <response code="404">Não localizado.</response>
         [HttpPut]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult Put(AnimalDto animal)
+        public async Task<IActionResult> Put(AnimalDto animal)
         {
             if (!ModelState.IsValid)
             {
                 throw new QuironException("Os dados para atualização são inválidos.");
             }
 
-            if ((animal.Id.ToString().Equals("")) || (_animalService.PesquisarPorId(animal.Id) == null))
+            if ((animal.Id.ToString().Equals("")) || (await _animalService.PesquisarPorId(animal.Id) == null))
             {
                 return NotFound();
             }
 
-            _animalService.Atualizar(animal);
+            await _animalService.Atualizar(animal);
             return Ok();
         }
 
@@ -97,15 +97,15 @@ namespace Quiron.Api.Controllers
         /// <response code="404">Não localizado.</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            AnimalDto animal = _animalService.PesquisarPorId(id);
+            AnimalDto animal = await _animalService.PesquisarPorId(id);
             if (animal == null)
             {
                 return NotFound();
             }
 
-            _animalService.Remover(animal);
+            await _animalService.Remover(animal.Id);
             return Ok();
         }
     }

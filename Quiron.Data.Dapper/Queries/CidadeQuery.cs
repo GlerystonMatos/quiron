@@ -8,7 +8,7 @@ namespace Quiron.Data.Dapper.Queries
 {
     public class CidadeQuery : ICidadeQuery
     {
-        public IList<Cidade> ObterTodosPorNome(string connectionString, string nome)
+        public async Task<Cidade[]> ObterTodosPorNome(string connectionString, string nome)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -25,7 +25,7 @@ namespace Quiron.Data.Dapper.Queries
 
                 var parametros = new { Nome = $"%{nome}%" };
 
-                IEnumerable<Cidade> cidades = connection.Query<Cidade, Estado, Cidade>(
+                IEnumerable<Cidade> cidades = await connection.QueryAsync<Cidade, Estado, Cidade>(
                     sql.ToString(),
                     (cidade, estado) =>
                     {
@@ -36,7 +36,7 @@ namespace Quiron.Data.Dapper.Queries
                     splitOn: "Id, Id"
                 );
 
-                return cidades.ToList();
+                return cidades.ToArray();
             }
         }
     }

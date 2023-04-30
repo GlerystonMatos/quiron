@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Quiron.Domain.Interfaces.Base
 {
@@ -7,11 +8,11 @@ namespace Quiron.Domain.Interfaces.Base
     {
         void Criar(TModel model);
 
-        void Atualizar(TModel model);
-
         void Remover(TModel model);
 
-        TModel PesquisarPorId(Guid id);
+        Task SalvarAlteracoes();
+
+        ValueTask<TModel> PesquisarPorId(Guid id);
 
         IQueryable<TModel> ObterTodos();
     }

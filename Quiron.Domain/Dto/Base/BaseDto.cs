@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace Quiron.Domain.Dto.Base
 {
-    [DisplayName("BaseDto")]
+    [DisplayName("Base")]
     public class BaseDto
     {
         public Guid Id { get; set; }

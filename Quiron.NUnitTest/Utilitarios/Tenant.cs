@@ -1,13 +1,14 @@
-﻿using Quiron.Domain.Tenant;
+﻿using Quiron.Domain.Interfaces.Services;
+using Quiron.Domain.Tenant;
 using Quiron.Service.Services;
 
 namespace Quiron.NUnitTest.Utilitarios
 {
     public class Tenant
     {
-        private static TenantService? _tenantService;
+        private static ITenantService? _tenantService;
 
-        public static TenantService GetTenant()
+        public static ITenantService Get()
         {
             if (_tenantService == null)
             {

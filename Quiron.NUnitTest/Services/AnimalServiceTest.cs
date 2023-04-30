@@ -22,8 +22,8 @@ namespace Quiron.NUnitTest.Services
 
         public AnimalServiceTest()
         {
+            _tenantService = Tenant.Get();
             _mapper = Mapeador.GetMapper();
-            _tenantService = Tenant.GetTenant();
             _animalQuery = new Mock<IAnimalQuery>();
             _animalRepository = new Mock<IAnimalRepository>();
             _animalService = new AnimalService(_mapper, _tenantService, _animalQuery.Object, _animalRepository.Object);
@@ -45,10 +45,7 @@ namespace Quiron.NUnitTest.Services
 
         [Test]
         public void RemoverTest()
-        {
-            AnimalDto animal = new AnimalDto();
-            Assert.DoesNotThrow(() => _animalService.Remover(animal));
-        }
+            => Assert.DoesNotThrow(() => _animalService.Remover(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -69,7 +66,7 @@ namespace Quiron.NUnitTest.Services
         {
             Animal animal = new Animal(Guid.NewGuid(), "Coelho");
 
-            _animalRepository.Setup(r => r.PesquisarPorId(animal.Id)).Returns(animal);
+            _animalRepository.Setup(r => r.PesquisarPorId(animal.Id)).ReturnsAsync(animal);
             Assert.IsNotNull(_animalService.PesquisarPorId(animal.Id));
         }
 
@@ -85,7 +82,7 @@ namespace Quiron.NUnitTest.Services
 
             TenantConfiguration tenant = _tenantService.Get();
 
-            _animalQuery.Setup(r => r.ObterTodosPorNome(tenant.ConnectionStringDados, nome)).Returns(animais);
+            _animalQuery.Setup(r => r.ObterTodosPorNome(tenant.ConnectionStringDados, nome)).ReturnsAsync(animais.ToArray());
             Assert.IsNotNull(_animalService.ObterTodosPorNome(nome));
         }
     }

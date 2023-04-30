@@ -7,8 +7,8 @@ using Quiron.Domain.Interfaces.Queries;
 using Quiron.Domain.Interfaces.Services;
 using Quiron.Domain.Tenant;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Quiron.Service.Services
 {
@@ -27,25 +27,38 @@ namespace Quiron.Service.Services
             _cidadeRepository = cidadeRepository;
         }
 
-        public void Criar(CidadeDto cidade)
-            => _cidadeRepository.Criar(_mapper.Map<Cidade>(cidade));
+        public async Task Criar(CidadeDto cidade)
+        {
+            _cidadeRepository.Criar(_mapper.Map<Cidade>(cidade));
+            await _cidadeRepository.SalvarAlteracoes();
+        }
 
-        public void Atualizar(CidadeDto cidade)
-            => _cidadeRepository.Atualizar(_mapper.Map<Cidade>(cidade));
+        public async Task Atualizar(CidadeDto origem)
+        {
+            Cidade destino = await _cidadeRepository.PesquisarPorId(origem.Id);
+            _mapper.Map(origem, destino);
 
-        public void Remover(CidadeDto cidade)
-            => _cidadeRepository.Remover(_mapper.Map<Cidade>(cidade));
+            await _cidadeRepository.SalvarAlteracoes();
+        }
 
-        public CidadeDto PesquisarPorId(Guid id)
-            => _mapper.Map<CidadeDto>(_cidadeRepository.PesquisarPorId(id));
+        public async Task Remover(Guid id)
+        {
+            Cidade cidade = await _cidadeRepository.PesquisarPorId(id);
+            _cidadeRepository.Remover(cidade);
+
+            await _cidadeRepository.SalvarAlteracoes();
+        }
+
+        public async Task<CidadeDto> PesquisarPorId(Guid id)
+            => _mapper.Map<CidadeDto>(await _cidadeRepository.PesquisarPorId(id));
 
         public IQueryable<CidadeDto> ObterTodos()
             => _cidadeRepository.ObterTodos().ProjectTo<CidadeDto>(_mapper.ConfigurationProvider);
 
-        public IList<CidadeDto> ObterTodosPorNome(string nome)
+        public async Task<CidadeDto[]> ObterTodosPorNome(string nome)
         {
             TenantConfiguration tenant = _tenantService.Get();
-            return _mapper.Map<IList<CidadeDto>>(_cidadeQuery.ObterTodosPorNome(tenant.ConnectionStringDados, nome));
+            return _mapper.Map<CidadeDto[]>(await _cidadeQuery.ObterTodosPorNome(tenant.ConnectionStringDados, nome));
         }
     }
 }

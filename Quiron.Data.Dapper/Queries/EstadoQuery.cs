@@ -8,7 +8,7 @@ namespace Quiron.Data.Dapper.Queries
 {
     public class EstadoQuery : IEstadoQuery
     {
-        public IList<Estado> ObterTodosPorUf(string connectionString, string uf)
+        public async Task<Estado[]> ObterTodosPorUf(string connectionString, string uf)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -25,7 +25,7 @@ namespace Quiron.Data.Dapper.Queries
 
                 var parametros = new { Uf = uf };
 
-                IEnumerable<Estado> estados = connection.Query<Estado, Cidade, Estado>(
+                IEnumerable<Estado> estados = await connection.QueryAsync<Estado, Cidade, Estado>(
                     sql.ToString(),
                     (estado, cidade) =>
                     {
@@ -46,7 +46,7 @@ namespace Quiron.Data.Dapper.Queries
                         Uf = g.First().Uf,
                         Cidades = g.SelectMany(e => e.Cidades).ToList()
                     })
-                    .ToList();
+                    .ToArray();
             }
         }
     }

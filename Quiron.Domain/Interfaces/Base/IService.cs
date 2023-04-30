@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Quiron.Domain.Interfaces.Base
 {
     public interface IService<TModel>
     {
-        void Criar(TModel model);
+        Task Criar(TModel model);
 
-        void Atualizar(TModel model);
+        Task Atualizar(TModel model);
 
-        void Remover(TModel model);
+        Task Remover(Guid id);
 
-        TModel PesquisarPorId(Guid id);
+        Task<TModel> PesquisarPorId(Guid id);
 
         IQueryable<TModel> ObterTodos();
     }

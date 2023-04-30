@@ -14,36 +14,39 @@ namespace Quiron.NUnitTest.Repositories
             => _animalRepository = new AnimalRepository(Conexao.GetContext());
 
         [Test]
-        public void CriarTest()
+        public async Task CriarTest()
         {
             Animal animal = new Animal(Guid.NewGuid(), "Peixe");
             _animalRepository.Criar(animal);
 
-            Animal novoAnimal = _animalRepository.PesquisarPorId(animal.Id);
+            Animal novoAnimal = await _animalRepository.PesquisarPorId(animal.Id);
             Assert.IsNotNull(novoAnimal);
         }
 
         [Test]
-        public void AtualizarTest()
+        public async Task AtualizarTest()
         {
-            Animal animal = new Animal(Guid.NewGuid(), "Urso");
-            _animalRepository.Criar(animal);
+            Animal animal = await _animalRepository.PesquisarPorId(Guid.Parse("1dfc4a8d-7ed1-443c-9cc7-ac71ea9d003b"));
+            animal.Nome = "Urso";
 
-            animal.Nome = "Urso Pardo";
-            _animalRepository.Atualizar(animal);
+            await _animalRepository.SalvarAlteracoes();
 
-            Animal? animalAtualizado = _animalRepository.ObterTodos().Where(a => a.Nome.Equals(animal.Nome)).FirstOrDefault();
-            Assert.IsNotNull(animalAtualizado);
+            Animal? atualizado = _animalRepository.ObterTodos().Where(a => a.Nome.Equals(animal.Nome)).FirstOrDefault();
+            Assert.IsNotNull(atualizado);
+
+            animal.Nome = "Cachorro";
+
+            await _animalRepository.SalvarAlteracoes();
         }
 
         [Test]
-        public void RemoverTest()
+        public async Task RemoverTest()
         {
             Animal animal = new Animal(Guid.NewGuid(), "Coelho");
             _animalRepository.Criar(animal);
 
             _animalRepository.Remover(animal);
-            Animal animalRemovido = _animalRepository.PesquisarPorId(animal.Id);
+            Animal animalRemovido = await _animalRepository.PesquisarPorId(animal.Id);
 
             Assert.IsNull(animalRemovido);
         }
@@ -59,12 +62,12 @@ namespace Quiron.NUnitTest.Repositories
         }
 
         [Test]
-        public void PesquisarPorIdTest()
+        public async Task PesquisarPorIdTest()
         {
             Animal animal = new Animal(Guid.NewGuid(), "Tatu");
             _animalRepository.Criar(animal);
 
-            Animal animalPesquisa = _animalRepository.PesquisarPorId(animal.Id);
+            Animal animalPesquisa = await _animalRepository.PesquisarPorId(animal.Id);
             Assert.IsNotNull(animalPesquisa);
         }
     }

@@ -7,8 +7,8 @@ using Quiron.Domain.Interfaces.Queries;
 using Quiron.Domain.Interfaces.Services;
 using Quiron.Domain.Tenant;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Quiron.Service.Services
 {
@@ -27,25 +27,38 @@ namespace Quiron.Service.Services
             _animalRepository = animalRepository;
         }
 
-        public void Criar(AnimalDto animal)
-            => _animalRepository.Criar(_mapper.Map<Animal>(animal));
+        public async Task Criar(AnimalDto animal)
+        {
+            _animalRepository.Criar(_mapper.Map<Animal>(animal));
+            await _animalRepository.SalvarAlteracoes();
+        }
 
-        public void Atualizar(AnimalDto animal)
-            => _animalRepository.Atualizar(_mapper.Map<Animal>(animal));
+        public async Task Atualizar(AnimalDto origem)
+        {
+            Animal destino = await _animalRepository.PesquisarPorId(origem.Id);
+            _mapper.Map(origem, destino);
 
-        public void Remover(AnimalDto animal)
-            => _animalRepository.Remover(_mapper.Map<Animal>(animal));
+            await _animalRepository.SalvarAlteracoes();
+        }
 
-        public AnimalDto PesquisarPorId(Guid id)
-            => _mapper.Map<AnimalDto>(_animalRepository.PesquisarPorId(id));
+        public async Task Remover(Guid id)
+        {
+            Animal animal = await _animalRepository.PesquisarPorId(id);
+            _animalRepository.Remover(animal);
+
+            await _animalRepository.SalvarAlteracoes();
+        }
+
+        public async Task<AnimalDto> PesquisarPorId(Guid id)
+            => _mapper.Map<AnimalDto>(await _animalRepository.PesquisarPorId(id));
 
         public IQueryable<AnimalDto> ObterTodos()
             => _animalRepository.ObterTodos().ProjectTo<AnimalDto>(_mapper.ConfigurationProvider);
 
-        public IList<AnimalDto> ObterTodosPorNome(string nome)
+        public async Task<AnimalDto[]> ObterTodosPorNome(string nome)
         {
             TenantConfiguration tenant = _tenantService.Get();
-            return _mapper.Map<IList<AnimalDto>>(_animalQuery.ObterTodosPorNome(tenant.ConnectionStringDados, nome));
+            return _mapper.Map<AnimalDto[]>(await _animalQuery.ObterTodosPorNome(tenant.ConnectionStringDados, nome));
         }
     }
 }

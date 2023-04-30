@@ -2,7 +2,7 @@
 using Quiron.Data.EF.Repositories;
 using Quiron.Domain.Interfaces.Data;
 
-namespace Quiron.CrossCutting
+namespace Quiron.Api.Dependencies
 {
     public static class InjectorRepository
     {

@@ -6,6 +6,7 @@ using Quiron.Domain.Exception;
 using Quiron.Domain.Interfaces.Services;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Quiron.Api.Controllers
 {
@@ -39,14 +40,14 @@ namespace Quiron.Api.Controllers
         /// <response code="400">Não foi possível criar.</response>
         [HttpPost]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult Post(UsuarioDto usuario)
+        public async Task<IActionResult> Post(UsuarioDto usuario)
         {
             if (!ModelState.IsValid)
             {
                 throw new QuironException("Os dados para criação são inválidos.");
             }
 
-            _usuarioService.Criar(usuario);
+            await _usuarioService.Criar(usuario);
             return Ok();
         }
 
@@ -59,19 +60,19 @@ namespace Quiron.Api.Controllers
         /// <response code="404">Não localizado.</response>
         [HttpPut]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult Put(UsuarioDto usuario)
+        public async Task<IActionResult> Put(UsuarioDto usuario)
         {
             if (!ModelState.IsValid)
             {
                 throw new QuironException("Os dados para atualização são inválidos.");
             }
 
-            if ((usuario.Id.ToString().Equals("")) || (_usuarioService.PesquisarPorId(usuario.Id) == null))
+            if ((usuario.Id.ToString().Equals("")) || (await _usuarioService.PesquisarPorId(usuario.Id) == null))
             {
                 return NotFound();
             }
 
-            _usuarioService.Atualizar(usuario);
+            await _usuarioService.Atualizar(usuario);
             return Ok();
         }
 
@@ -84,15 +85,15 @@ namespace Quiron.Api.Controllers
         /// <response code="404">Não localizado.</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            UsuarioDto usuario = _usuarioService.PesquisarPorId(id);
+            UsuarioDto usuario = await _usuarioService.PesquisarPorId(id);
             if (usuario == null)
             {
                 return NotFound();
             }
 
-            _usuarioService.Remover(usuario);
+            await _usuarioService.Remover(usuario.Id);
             return Ok();
         }
     }

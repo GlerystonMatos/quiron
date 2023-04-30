@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Quiron.Data.Dapper\Quiron.Data.Dapper.csproj" />
     <ProjectReference Include="..\Quiron.Data.EF\Quiron.Data.EF.csproj" />
     <ProjectReference Include="..\Quiron.Domain\Quiron.Domain.csproj" />
   </ItemGroup>

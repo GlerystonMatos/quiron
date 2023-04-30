@@ -8,6 +8,7 @@ using Quiron.Domain.Exception;
 using Quiron.Domain.Interfaces.Services;
 using Quiron.Domain.Tenant;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Quiron.Api.Controllers
 {
@@ -20,8 +21,8 @@ namespace Quiron.Api.Controllers
         private readonly ILogger<LoginController> _logger;
         private readonly IOptions<TenantConfigurationSection> _options;
 
-        public LoginController(ITenantService tenantService, IUsuarioService usuarioService, ILogger<LoginController> logger,
-            IOptions<TenantConfigurationSection> options)
+        public LoginController(ITenantService tenantService, IUsuarioService usuarioService,
+            ILogger<LoginController> logger, IOptions<TenantConfigurationSection> options)
         {
             _logger = logger;
             _options = options;
@@ -40,7 +41,7 @@ namespace Quiron.Api.Controllers
         [Route("Authenticate")]
         [ProducesResponseType(typeof(TokenDto), 200)]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult Authenticate([FromBody] LoginDto login)
+        public async Task<IActionResult> Authenticate([FromBody] LoginDto login)
         {
             TenantConfiguration tenant = _options.Value.Tenants.Where(t => t.Name.Equals(login.Tenant)).SingleOrDefault();
             if (tenant == null)
@@ -53,7 +54,7 @@ namespace Quiron.Api.Controllers
             _logger.LogInformation("User: " + login.Login);
             _logger.LogInformation("Tenant: " + tenant.Name);
 
-            UsuarioDto usuarioDto = _usuarioService.ObterUsuarioParaAutenticacao(login);
+            UsuarioDto usuarioDto = await _usuarioService.ObterUsuarioParaAutenticacao(login);
             _logger.LogInformation("Login realizado: " + usuarioDto.Nome);
 
             return Ok(new TokenDto(AccessToken.GenerateToken(usuarioDto, tenant.Name)));

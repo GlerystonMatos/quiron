@@ -7,8 +7,8 @@ using Quiron.Domain.Interfaces.Queries;
 using Quiron.Domain.Interfaces.Services;
 using Quiron.Domain.Tenant;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Quiron.Service.Services
 {
@@ -27,25 +27,38 @@ namespace Quiron.Service.Services
             _estadoRepository = estadoRepository;
         }
 
-        public void Criar(EstadoDto estado)
-            => _estadoRepository.Criar(_mapper.Map<Estado>(estado));
+        public async Task Criar(EstadoDto estado)
+        {
+            _estadoRepository.Criar(_mapper.Map<Estado>(estado));
+            await _estadoRepository.SalvarAlteracoes();
+        }
 
-        public void Atualizar(EstadoDto estado)
-            => _estadoRepository.Atualizar(_mapper.Map<Estado>(estado));
+        public async Task Atualizar(EstadoDto origem)
+        {
+            Estado destino = await _estadoRepository.PesquisarPorId(origem.Id);
+            _mapper.Map(origem, destino);
 
-        public void Remover(EstadoDto estado)
-            => _estadoRepository.Remover(_mapper.Map<Estado>(estado));
+            await _estadoRepository.SalvarAlteracoes();
+        }
 
-        public EstadoDto PesquisarPorId(Guid id)
-            => _mapper.Map<EstadoDto>(_estadoRepository.PesquisarPorId(id));
+        public async Task Remover(Guid id)
+        {
+            Estado estado = await _estadoRepository.PesquisarPorId(id);
+            _estadoRepository.Remover(estado);
+
+            await _estadoRepository.SalvarAlteracoes();
+        }
+
+        public async Task<EstadoDto> PesquisarPorId(Guid id)
+            => _mapper.Map<EstadoDto>(await _estadoRepository.PesquisarPorId(id));
 
         public IQueryable<EstadoDto> ObterTodos()
             => _estadoRepository.ObterTodos().ProjectTo<EstadoDto>(_mapper.ConfigurationProvider);
 
-        public IList<EstadoDto> ObterTodosPorUf(string uf)
+        public async Task<EstadoDto[]> ObterTodosPorUf(string uf)
         {
             TenantConfiguration tenant = _tenantService.Get();
-            return _mapper.Map<IList<EstadoDto>>(_estadoQuery.ObterTodosPorUf(tenant.ConnectionStringDados, uf));
+            return _mapper.Map<EstadoDto[]>(await _estadoQuery.ObterTodosPorUf(tenant.ConnectionStringDados, uf));
         }
     }
 }

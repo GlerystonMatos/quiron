@@ -22,8 +22,8 @@ namespace Quiron.NUnitTest.Services
 
         public CidadeServiceTest()
         {
+            _tenantService = Tenant.Get();
             _mapper = Mapeador.GetMapper();
-            _tenantService = Tenant.GetTenant();
             _cidadeQuery = new Mock<ICidadeQuery>();
             _cidadeRepository = new Mock<ICidadeRepository>();
             _cidadeService = new CidadeService(_mapper, _tenantService, _cidadeQuery.Object, _cidadeRepository.Object);
@@ -45,10 +45,7 @@ namespace Quiron.NUnitTest.Services
 
         [Test]
         public void RemoverTest()
-        {
-            CidadeDto cidade = new CidadeDto();
-            Assert.DoesNotThrow(() => _cidadeService.Remover(cidade));
-        }
+            => Assert.DoesNotThrow(() => _cidadeService.Remover(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -69,7 +66,7 @@ namespace Quiron.NUnitTest.Services
         {
             Cidade cidade = new Cidade(Guid.NewGuid(), "Fortaleza", Guid.NewGuid());
 
-            _cidadeRepository.Setup(r => r.PesquisarPorId(cidade.Id)).Returns(cidade);
+            _cidadeRepository.Setup(r => r.PesquisarPorId(cidade.Id)).ReturnsAsync(cidade);
             Assert.IsNotNull(_cidadeService.PesquisarPorId(cidade.Id));
         }
 
@@ -83,7 +80,7 @@ namespace Quiron.NUnitTest.Services
 
             TenantConfiguration tenant = _tenantService.Get();
 
-            _cidadeQuery.Setup(r => r.ObterTodosPorNome(tenant.ConnectionStringDados, cidade.Nome)).Returns(cidades);
+            _cidadeQuery.Setup(r => r.ObterTodosPorNome(tenant.ConnectionStringDados, cidade.Nome)).ReturnsAsync(cidades.ToArray());
             Assert.IsNotNull(_cidadeService.ObterTodosPorNome(cidade.Nome));
         }
     }

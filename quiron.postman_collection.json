@@ -365,6 +365,62 @@
 					"response": []
 				},
 				{
+					"name": "/OData/Usuario?filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"status é igual a 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    responseJSON = JSON.parse(responseBody);",
+									"    tests['resposta é um JSON válido'] = true;",
+									"}",
+									"catch (e) {",
+									"    responseJSON = {};",
+									"    tests['resposta não é um JSON válido'] = false;",
+									"}",
+									"",
+									"pm.environment.set(\"id\", responseJSON.value[0].Id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/OData/Usuario?filter=nome eq 'Teste Postman Atualizado'",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"OData",
+								"Usuario"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "nome eq 'Teste Postman Atualizado'"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "/Usuario",
 					"request": {
 						"auth": {
@@ -568,6 +624,62 @@
 							],
 							"path": [
 								"Animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/OData/Animal?filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"status é igual a 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    responseJSON = JSON.parse(responseBody);",
+									"    tests['resposta é um JSON válido'] = true;",
+									"}",
+									"catch (e) {",
+									"    responseJSON = {};",
+									"    tests['resposta não é um JSON válido'] = false;",
+									"}",
+									"",
+									"pm.environment.set(\"id\", responseJSON.value[0].Id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/OData/Animal?filter=nome eq 'Teste Postman Atualizado'",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"OData",
+								"Animal"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "nome eq 'Teste Postman Atualizado'"
+								}
 							]
 						}
 					},
@@ -805,6 +917,62 @@
 							],
 							"path": [
 								"Estado"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/OData/Estado?filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"status é igual a 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    responseJSON = JSON.parse(responseBody);",
+									"    tests['resposta é um JSON válido'] = true;",
+									"}",
+									"catch (e) {",
+									"    responseJSON = {};",
+									"    tests['resposta não é um JSON válido'] = false;",
+									"}",
+									"",
+									"pm.environment.set(\"id\", responseJSON.value[0].Id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/OData/Estado?filter=nome eq 'Teste Postman Atualizado'",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"OData",
+								"Estado"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "nome eq 'Teste Postman Atualizado'"
+								}
 							]
 						}
 					},
@@ -1098,6 +1266,62 @@
 							],
 							"path": [
 								"Cidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/OData/Cidade?filter",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"tests[\"status é igual a 200\"] = responseCode.code === 200;",
+									"",
+									"try {",
+									"    responseJSON = JSON.parse(responseBody);",
+									"    tests['resposta é um JSON válido'] = true;",
+									"}",
+									"catch (e) {",
+									"    responseJSON = {};",
+									"    tests['resposta não é um JSON válido'] = false;",
+									"}",
+									"",
+									"pm.environment.set(\"id\", responseJSON.value[0].Id);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/OData/Cidade?filter=nome eq 'Teste Postman Atualizado'",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"OData",
+								"Cidade"
+							],
+							"query": [
+								{
+									"key": "filter",
+									"value": "nome eq 'Teste Postman Atualizado'"
+								}
 							]
 						}
 					},

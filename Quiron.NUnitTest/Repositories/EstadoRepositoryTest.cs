@@ -14,36 +14,41 @@ namespace Quiron.NUnitTest.Repositories
             => _estadoRepository = new EstadoRepository(Conexao.GetContext());
 
         [Test]
-        public void CriarTest()
+        public async Task CriarTest()
         {
             Estado estado = new Estado(Guid.NewGuid(), "Bahia", "BA");
             _estadoRepository.Criar(estado);
 
-            Estado novoEstado = _estadoRepository.PesquisarPorId(estado.Id);
+            Estado novoEstado = await _estadoRepository.PesquisarPorId(estado.Id);
             Assert.IsNotNull(novoEstado);
         }
 
         [Test]
-        public void AtualizarTest()
+        public async Task AtualizarTest()
         {
-            Estado estado = new Estado(Guid.NewGuid(), "Acre", "AC");
-            _estadoRepository.Criar(estado);
+            Estado estado = await _estadoRepository.PesquisarPorId(Guid.Parse("362c52b3-b9db-4aca-a48f-6e47aa77f819"));
+            estado.Nome = "Acre";
+            estado.Uf = "AC";
 
-            estado.Nome = "Acre - AC";
-            _estadoRepository.Atualizar(estado);
+            await _estadoRepository.SalvarAlteracoes();
 
-            Estado? estadoAtualizado = _estadoRepository.ObterTodos().Where(a => a.Nome.Equals(estado.Nome)).FirstOrDefault();
-            Assert.IsNotNull(estadoAtualizado);
+            Estado? atualizado = _estadoRepository.ObterTodos().Where(e => e.Nome.Equals(estado.Nome) && e.Uf.Equals(estado.Uf)).FirstOrDefault();
+            Assert.IsNotNull(atualizado);
+
+            estado.Nome = "Ceará";
+            estado.Uf = "CE";
+
+            await _estadoRepository.SalvarAlteracoes();
         }
 
         [Test]
-        public void RemoverTest()
+        public async Task RemoverTest()
         {
             Estado estado = new Estado(Guid.NewGuid(), "Maranhão", "MA");
             _estadoRepository.Criar(estado);
 
             _estadoRepository.Remover(estado);
-            Estado estadoRemovido = _estadoRepository.PesquisarPorId(estado.Id);
+            Estado estadoRemovido = await _estadoRepository.PesquisarPorId(estado.Id);
 
             Assert.IsNull(estadoRemovido);
         }
@@ -59,12 +64,12 @@ namespace Quiron.NUnitTest.Repositories
         }
 
         [Test]
-        public void PesquisarPorIdTest()
+        public async Task PesquisarPorIdTest()
         {
             Estado estado = new Estado(Guid.NewGuid(), "Mato Grosso", "MT");
             _estadoRepository.Criar(estado);
 
-            Estado estadoPesquisa = _estadoRepository.PesquisarPorId(estado.Id);
+            Estado estadoPesquisa = await _estadoRepository.PesquisarPorId(estado.Id);
             Assert.IsNotNull(estadoPesquisa);
         }
     }

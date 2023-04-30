@@ -8,7 +8,7 @@ namespace Quiron.Data.Dapper.Queries
 {
     public class AnimalQuery : IAnimalQuery
     {
-        public IList<Animal> ObterTodosPorNome(string connectionString, string nome)
+        public async Task<Animal[]> ObterTodosPorNome(string connectionString, string nome)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {
@@ -20,8 +20,8 @@ namespace Quiron.Data.Dapper.Queries
 
                 var parametros = new { Nome = $"%{nome}%" };
 
-                IEnumerable<Animal> animais = sqlConnection.Query<Animal>(stringBuilder.ToString(), parametros);
-                return animais.ToList();
+                IEnumerable<Animal> animais = await sqlConnection.QueryAsync<Animal>(stringBuilder.ToString(), parametros);
+                return animais.ToArray();
             }
         }
     }

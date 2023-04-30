@@ -5,8 +5,8 @@ using Quiron.Domain.Dto;
 using Quiron.Domain.Exception;
 using Quiron.Domain.Interfaces.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Quiron.Api.Controllers
 {
@@ -39,10 +39,10 @@ namespace Quiron.Api.Controllers
         /// <response code="200">Consulta realizada com sucesso.</response>
         /// <response code="400">Não foi possível realizar a consulta.</response>
         [HttpGet("{nome}")]
-        [ProducesResponseType(typeof(IList<CidadeDto>), 200)]
+        [ProducesResponseType(typeof(CidadeDto[]), 200)]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult ObterTodosPorNome(string nome)
-            => Ok(_cidadeService.ObterTodosPorNome(nome));
+        public async Task<IActionResult> ObterTodosPorNome(string nome)
+            => Ok(await _cidadeService.ObterTodosPorNome(nome));
 
         /// <summary>
         /// Criar
@@ -52,14 +52,14 @@ namespace Quiron.Api.Controllers
         /// <response code="400">Não foi possível criar.</response>
         [HttpPost]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult Post(CidadeDto cidade)
+        public async Task<IActionResult> Post(CidadeDto cidade)
         {
             if (!ModelState.IsValid)
             {
                 throw new QuironException("Os dados para criação são inválidos.");
             }
 
-            _cidadeService.Criar(cidade);
+            await _cidadeService.Criar(cidade);
             return Ok();
         }
 
@@ -72,19 +72,19 @@ namespace Quiron.Api.Controllers
         /// <response code="404">Não localizado.</response>
         [HttpPut]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult Put(CidadeDto cidade)
+        public async Task<IActionResult> Put(CidadeDto cidade)
         {
             if (!ModelState.IsValid)
             {
                 throw new QuironException("Os dados para atualização são inválidos.");
             }
 
-            if ((cidade.Id.ToString().Equals("")) || (_cidadeService.PesquisarPorId(cidade.Id) == null))
+            if ((cidade.Id.ToString().Equals("")) || (await _cidadeService.PesquisarPorId(cidade.Id) == null))
             {
                 return NotFound();
             }
 
-            _cidadeService.Atualizar(cidade);
+            await _cidadeService.Atualizar(cidade);
             return Ok();
         }
 
@@ -97,15 +97,15 @@ namespace Quiron.Api.Controllers
         /// <response code="404">Não localizado.</response>
         [HttpDelete("{id}")]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            CidadeDto cidade = _cidadeService.PesquisarPorId(id);
+            CidadeDto cidade = await _cidadeService.PesquisarPorId(id);
             if (cidade == null)
             {
                 return NotFound();
             }
 
-            _cidadeService.Remover(cidade);
+            await _cidadeService.Remover(cidade.Id);
             return Ok();
         }
     }

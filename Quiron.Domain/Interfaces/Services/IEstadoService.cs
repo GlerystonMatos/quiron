@@ -1,11 +1,11 @@
 ﻿using Quiron.Domain.Dto;
 using Quiron.Domain.Interfaces.Base;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Quiron.Domain.Interfaces.Services
 {
     public interface IEstadoService : IService<EstadoDto>
     {
-        IList<EstadoDto> ObterTodosPorUf(string uf);
+        Task<EstadoDto[]> ObterTodosPorUf(string uf);
     }
 }

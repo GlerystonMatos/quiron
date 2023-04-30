@@ -2,7 +2,7 @@
 using Quiron.Data.Dapper.Queries;
 using Quiron.Domain.Interfaces.Queries;
 
-namespace Quiron.CrossCutting
+namespace Quiron.Api.Dependencies
 {
     public static class InjectorQuery
     {

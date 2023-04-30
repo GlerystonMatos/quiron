@@ -1,10 +1,10 @@
 ﻿using Quiron.Domain.Entities;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Quiron.Domain.Interfaces.Queries
 {
     public interface IAnimalQuery
     {
-        IList<Animal> ObterTodosPorNome(string connectionString, string nome);
+        Task<Animal[]> ObterTodosPorNome(string connectionString, string nome);
     }
 }

@@ -1,11 +1,11 @@
 ﻿using Quiron.Domain.Dto;
 using Quiron.Domain.Interfaces.Base;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Quiron.Domain.Interfaces.Services
 {
     public interface ICidadeService : IService<CidadeDto>
     {
-        IList<CidadeDto> ObterTodosPorNome(string nome);
+        Task<CidadeDto[]> ObterTodosPorNome(string nome);
     }
 }

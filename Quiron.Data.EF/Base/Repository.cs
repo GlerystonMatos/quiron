@@ -4,6 +4,7 @@ using Quiron.Domain.Entities.Base;
 using Quiron.Domain.Interfaces.Base;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Quiron.Data.EF.Base
 {
@@ -15,27 +16,18 @@ namespace Quiron.Data.EF.Base
             => _context = context;
 
         public void Criar(TModel model)
-        {
-            _context.Set<TModel>().Add(model);
-            _context.SaveChanges();
-        }
-
-        public void Atualizar(TModel model)
-        {
-            _context.Set<TModel>().Update(model);
-            _context.SaveChanges();
-        }
+            => _context.Set<TModel>().Add(model);
 
         public void Remover(TModel model)
-        {
-            _context.Set<TModel>().Remove(model);
-            _context.SaveChanges();
-        }
+            => _context.Set<TModel>().Remove(model);
 
-        public TModel PesquisarPorId(Guid id)
-            => _context.Set<TModel>().Where(t => t.Id.Equals(id)).AsNoTracking().FirstOrDefault();
+        public Task SalvarAlteracoes()
+            => _context.SaveChangesAsync();
 
-        public virtual IQueryable<TModel> ObterTodos()
+        public ValueTask<TModel> PesquisarPorId(Guid id)
+            => _context.Set<TModel>().FindAsync(id);
+
+        public IQueryable<TModel> ObterTodos()
             => _context.Set<TModel>().AsNoTracking().AsQueryable();
     }
 }

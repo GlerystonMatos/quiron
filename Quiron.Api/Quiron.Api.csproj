@@ -24,7 +24,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Quiron.Auditoria\Quiron.Auditoria.csproj" />
-    <ProjectReference Include="..\Quiron.CrossCutting\Quiron.CrossCutting.csproj" />
+    <ProjectReference Include="..\Quiron.Data.Dapper\Quiron.Data.Dapper.csproj" />
+    <ProjectReference Include="..\Quiron.Data.EF\Quiron.Data.EF.csproj" />
     <ProjectReference Include="..\Quiron.Service\Quiron.Service.csproj" />
   </ItemGroup>
 

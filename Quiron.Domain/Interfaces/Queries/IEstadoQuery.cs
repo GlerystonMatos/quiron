@@ -1,10 +1,10 @@
 ﻿using Quiron.Domain.Entities;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Quiron.Domain.Interfaces.Queries
 {
     public interface IEstadoQuery
     {
-        IList<Estado> ObterTodosPorUf(string connectionString, string uf);
+        Task<Estado[]> ObterTodosPorUf(string connectionString, string uf);
     }
 }

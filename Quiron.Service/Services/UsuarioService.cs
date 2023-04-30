@@ -7,6 +7,7 @@ using Quiron.Domain.Interfaces.Data;
 using Quiron.Domain.Interfaces.Services;
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Quiron.Service.Services
 {
@@ -21,27 +22,40 @@ namespace Quiron.Service.Services
             _usuarioRepository = usuarioRepository;
         }
 
-        public void Criar(UsuarioDto usuario)
-            => _usuarioRepository.Criar(_mapper.Map<Usuario>(usuario));
+        public async Task Criar(UsuarioDto usuario)
+        {
+            _usuarioRepository.Criar(_mapper.Map<Usuario>(usuario));
+            await _usuarioRepository.SalvarAlteracoes();
+        }
 
-        public void Atualizar(UsuarioDto usuario)
-            => _usuarioRepository.Atualizar(_mapper.Map<Usuario>(usuario));
+        public async Task Atualizar(UsuarioDto origem)
+        {
+            Usuario destino = await _usuarioRepository.PesquisarPorId(origem.Id);
+            _mapper.Map(origem, destino);
 
-        public void Remover(UsuarioDto usuario)
-            => _usuarioRepository.Remover(_mapper.Map<Usuario>(usuario));
+            await _usuarioRepository.SalvarAlteracoes();
+        }
 
-        public UsuarioDto PesquisarPorId(Guid id)
-            => _mapper.Map<UsuarioDto>(_usuarioRepository.PesquisarPorId(id));
+        public async Task Remover(Guid id)
+        {
+            Usuario usuario = await _usuarioRepository.PesquisarPorId(id);
+            _usuarioRepository.Remover(usuario);
+
+            await _usuarioRepository.SalvarAlteracoes();
+        }
+
+        public async Task<UsuarioDto> PesquisarPorId(Guid id)
+            => _mapper.Map<UsuarioDto>(await _usuarioRepository.PesquisarPorId(id));
 
         public IQueryable<UsuarioDto> ObterTodos()
             => _usuarioRepository.ObterTodos().ProjectTo<UsuarioDto>(_mapper.ConfigurationProvider);
 
-        private UsuarioDto PesquisarPorLoginSenha(string login, string senha)
-            => _mapper.Map<UsuarioDto>(_usuarioRepository.PesquisarPorLoginSenha(login, senha));
+        private async Task<UsuarioDto> PesquisarPorLoginSenha(string login, string senha)
+            => _mapper.Map<UsuarioDto>(await _usuarioRepository.PesquisarPorLoginSenha(login, senha));
 
-        public UsuarioDto ObterUsuarioParaAutenticacao(LoginDto login)
+        public async Task<UsuarioDto> ObterUsuarioParaAutenticacao(LoginDto login)
         {
-            UsuarioDto usuario = PesquisarPorLoginSenha(login.Login, login.Senha);
+            UsuarioDto usuario = await PesquisarPorLoginSenha(login.Login, login.Senha);
 
             if (usuario == null)
                 throw new QuironException("Usuário não localizado.");

@@ -18,36 +18,39 @@ namespace Quiron.NUnitTest.Repositories
         }
 
         [Test]
-        public void CriarTest()
+        public async Task CriarTest()
         {
             Cidade cidade = new Cidade(Guid.NewGuid(), "Aquiraz", _idCeara);
             _cidadeRepository.Criar(cidade);
 
-            Cidade novoCidade = _cidadeRepository.PesquisarPorId(cidade.Id);
+            Cidade novoCidade = await _cidadeRepository.PesquisarPorId(cidade.Id);
             Assert.IsNotNull(novoCidade);
         }
 
         [Test]
-        public void AtualizarTest()
+        public async Task AtualizarTest()
         {
-            Cidade cidade = new Cidade(Guid.NewGuid(), "Aracati", _idCeara);
-            _cidadeRepository.Criar(cidade);
+            Cidade cidade = await _cidadeRepository.PesquisarPorId(Guid.Parse("373fad00-4ace-4c53-abbd-4fa11212cd88"));
+            cidade.Nome = "Aracati";
 
-            cidade.Nome = "Aracati - CE";
-            _cidadeRepository.Atualizar(cidade);
+            await _cidadeRepository.SalvarAlteracoes();
 
-            Cidade? cidadeAtualizado = _cidadeRepository.ObterTodos().Where(a => a.Nome.Equals(cidade.Nome)).FirstOrDefault();
-            Assert.IsNotNull(cidadeAtualizado);
+            Cidade? atualizado = _cidadeRepository.ObterTodos().Where(a => a.Nome.Equals(cidade.Nome)).FirstOrDefault();
+            Assert.IsNotNull(atualizado);
+
+            cidade.Nome = "Fortaleza";
+
+            await _cidadeRepository.SalvarAlteracoes();
         }
 
         [Test]
-        public void RemoverTest()
+        public async Task RemoverTest()
         {
             Cidade cidade = new Cidade(Guid.NewGuid(), "Itapipoca", _idCeara);
             _cidadeRepository.Criar(cidade);
 
             _cidadeRepository.Remover(cidade);
-            Cidade cidadeRemovido = _cidadeRepository.PesquisarPorId(cidade.Id);
+            Cidade cidadeRemovido = await _cidadeRepository.PesquisarPorId(cidade.Id);
 
             Assert.IsNull(cidadeRemovido);
         }
@@ -63,12 +66,12 @@ namespace Quiron.NUnitTest.Repositories
         }
 
         [Test]
-        public void PesquisarPorIdTest()
+        public async Task PesquisarPorIdTest()
         {
             Cidade cidade = new Cidade(Guid.NewGuid(), "Juazeiro do Norte", _idCeara);
             _cidadeRepository.Criar(cidade);
 
-            Cidade cidadePesquisa = _cidadeRepository.PesquisarPorId(cidade.Id);
+            Cidade cidadePesquisa = await _cidadeRepository.PesquisarPorId(cidade.Id);
             Assert.IsNotNull(cidadePesquisa);
         }
     }

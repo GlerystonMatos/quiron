@@ -1,3 +1,6 @@
+echo Excluir dados antigos de cobertura:
+del /s /q .\Coverage\*.*
+
 echo Gerar dados da cobertura dos testes:
 dotnet test --collect:"XPlat Code Coverage" --settings coverlet.runsettings --results-directory="./Coverage/CoverageData"
 

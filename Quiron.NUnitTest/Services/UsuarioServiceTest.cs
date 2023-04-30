@@ -40,10 +40,7 @@ namespace Quiron.NUnitTest.Services
 
         [Test]
         public void RemoverTest()
-        {
-            UsuarioDto usuario = new UsuarioDto();
-            Assert.DoesNotThrow(() => _usuarioService.Remover(usuario));
-        }
+            => Assert.DoesNotThrow(() => _usuarioService.Remover(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -64,7 +61,7 @@ namespace Quiron.NUnitTest.Services
         {
             Usuario usuario = new Usuario(Guid.NewGuid(), "Teste 05", "Teste 05", "Teste05");
 
-            _usuarioRepository.Setup(r => r.PesquisarPorId(usuario.Id)).Returns(usuario);
+            _usuarioRepository.Setup(r => r.PesquisarPorId(usuario.Id)).ReturnsAsync(usuario);
             Assert.IsNotNull(_usuarioService.PesquisarPorId(usuario.Id));
         }
 
@@ -76,13 +73,14 @@ namespace Quiron.NUnitTest.Services
             LoginDto loginDto = new LoginDto();
             loginDto.Login = "Teste";
             loginDto.Senha = "Teste";
+            loginDto.Tenant = "Teste";
 
-            _usuarioRepository.Setup(r => r.PesquisarPorLoginSenha(usuario.Login, usuario.Senha)).Returns(usuario);
+            _usuarioRepository.Setup(r => r.PesquisarPorLoginSenha(usuario.Login, usuario.Senha)).ReturnsAsync(usuario);
 
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
-            Assert.IsTrue(Assert.Throws<QuironException>(() => _usuarioService.ObterUsuarioParaAutenticacao(loginDto))
-                .Message.Equals("Usuário não localizado."));
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
+            QuironException? exception = Assert.ThrowsAsync<QuironException>(() => _usuarioService.ObterUsuarioParaAutenticacao(loginDto));
+
+            if (exception != null)
+                Assert.IsTrue(exception.Message.Equals("Usuário não localizado."));
         }
 
         [Test]
@@ -94,7 +92,7 @@ namespace Quiron.NUnitTest.Services
             loginDto.Login = usuario.Login;
             loginDto.Senha = usuario.Senha;
 
-            _usuarioRepository.Setup(r => r.PesquisarPorLoginSenha(usuario.Login, usuario.Senha)).Returns(usuario);
+            _usuarioRepository.Setup(r => r.PesquisarPorLoginSenha(usuario.Login, usuario.Senha)).ReturnsAsync(usuario);
             Assert.IsNotNull(_usuarioService.ObterUsuarioParaAutenticacao(loginDto));
         }
     }
