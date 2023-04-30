@@ -17,9 +17,11 @@ Projeto para desenvolver os conhecimentos em C# e .NET Core.
 ![ReportGenerator](https://img.shields.io/badge/Gerador%20de%20relat%C3%B3rios-ReportGenerator-darkred)<br>
 ![Dapper](https://img.shields.io/badge/Framework-Dapper-darkblue)<br>
 ![Docker](https://img.shields.io/badge/Plataforma-docker-blue)<br>
-![Docker-Compose](https://img.shields.io/badge/Plataforma-docker--compose-blue)
+![Docker-Compose](https://img.shields.io/badge/Plataforma-docker--compose-blue)<br>
+![Programação assíncrona](https://img.shields.io/badge/Recurso-Programa%C3%A7%C3%A3o%20ass%C3%ADncrona-purple)<br>
+![Postman](https://img.shields.io/badge/Testes-Postman-orange)
 
-# 📚 Artigos (Atualizar):
+# 📚 Artigos (Desatualizados):
 <a href='https://medium.com/@glerystonmatos/apresenta%C3%A7%C3%A3o-projeto-quiron-706485e4dc74'>Apresentação do projeto</a><br/>
 <a href='https://medium.com/@glerystonmatos/entity-framework-core-postgresql-3205533fbc31'>Mudando o banco de dados para PostgreSQL</a><br/>
 <a href='https://medium.com/@glerystonmatos/deploy-de-uma-aplica%C3%A7%C3%A3o-net-core-3-1-no-heroku-b2224b2b3e03'>Automatizando deploy no Heroku</a><br/>
