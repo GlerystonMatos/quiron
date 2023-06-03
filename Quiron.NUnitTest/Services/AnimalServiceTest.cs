@@ -22,8 +22,8 @@ namespace Quiron.NUnitTest.Services
 
         public AnimalServiceTest()
         {
+            _mapper = Mapeador.Get();
             _tenantService = Tenant.Get();
-            _mapper = Mapeador.GetMapper();
             _animalQuery = new Mock<IAnimalQuery>();
             _animalRepository = new Mock<IAnimalRepository>();
             _animalService = new AnimalService(_mapper, _tenantService, _animalQuery.Object, _animalRepository.Object);

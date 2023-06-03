@@ -22,8 +22,8 @@ namespace Quiron.NUnitTest.Services
 
         public EstadoServiceTest()
         {
+            _mapper = Mapeador.Get();
             _tenantService = Tenant.Get();
-            _mapper = Mapeador.GetMapper();
             _estadoQuery = new Mock<IEstadoQuery>();
             _estadoRepository = new Mock<IEstadoRepository>();
             _estadoService = new EstadoService(_mapper, _tenantService, _estadoQuery.Object, _estadoRepository.Object);

@@ -22,8 +22,8 @@ namespace Quiron.NUnitTest.Services
 
         public CidadeServiceTest()
         {
+            _mapper = Mapeador.Get();
             _tenantService = Tenant.Get();
-            _mapper = Mapeador.GetMapper();
             _cidadeQuery = new Mock<ICidadeQuery>();
             _cidadeRepository = new Mock<ICidadeRepository>();
             _cidadeService = new CidadeService(_mapper, _tenantService, _cidadeQuery.Object, _cidadeRepository.Object);

@@ -5,7 +5,7 @@ namespace Quiron.NUnitTest.Utilitarios
 {
     public class Mapeador
     {
-        public static IMapper GetMapper()
+        public static IMapper Get()
         {
             MapperConfiguration mapperConfiguration = new MapperConfiguration(cfg => cfg.AddProfile(new AutoMapping()));
             return mapperConfiguration.CreateMapper();

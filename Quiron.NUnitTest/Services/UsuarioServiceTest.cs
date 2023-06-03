@@ -19,7 +19,7 @@ namespace Quiron.NUnitTest.Services
 
         public UsuarioServiceTest()
         {
-            _mapper = Mapeador.GetMapper();
+            _mapper = Mapeador.Get();
             _usuarioRepository = new Mock<IUsuarioRepository>();
             _usuarioService = new UsuarioService(_mapper, _usuarioRepository.Object);
         }
