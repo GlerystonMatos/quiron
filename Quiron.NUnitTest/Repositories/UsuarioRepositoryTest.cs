@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Quiron.Data.EF.Repositories;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -20,7 +21,7 @@ namespace Quiron.NUnitTest.Repositories
             _usuarioRepository.Criar(usuario);
 
             Usuario novoUsuario = await _usuarioRepository.PesquisarPorId(usuario.Id);
-            Assert.IsNotNull(novoUsuario);
+            ClassicAssert.IsNotNull(novoUsuario);
         }
 
         [Test]
@@ -32,7 +33,7 @@ namespace Quiron.NUnitTest.Repositories
             await _usuarioRepository.SalvarAlteracoes();
 
             Usuario? atualizado = _usuarioRepository.ObterTodos().Where(a => a.Nome.Equals(usuario.Nome)).FirstOrDefault();
-            Assert.IsNotNull(atualizado);
+            ClassicAssert.IsNotNull(atualizado);
 
             usuario.Nome = "Teste 01";
 
@@ -48,7 +49,7 @@ namespace Quiron.NUnitTest.Repositories
             _usuarioRepository.Remover(usuario);
             Usuario usuarioRemovido = await _usuarioRepository.PesquisarPorId(usuario.Id);
 
-            Assert.IsNull(usuarioRemovido);
+            ClassicAssert.IsNull(usuarioRemovido);
         }
 
         [Test]
@@ -58,7 +59,7 @@ namespace Quiron.NUnitTest.Repositories
             _usuarioRepository.Criar(usuario);
 
             IQueryable<Usuario> usuarios = _usuarioRepository.ObterTodos();
-            Assert.IsNotNull(usuarios);
+            ClassicAssert.IsNotNull(usuarios);
         }
 
         [Test]
@@ -68,14 +69,14 @@ namespace Quiron.NUnitTest.Repositories
             _usuarioRepository.Criar(usuario);
 
             Usuario usuarioPesquisa = await _usuarioRepository.PesquisarPorId(usuario.Id);
-            Assert.IsNotNull(usuarioPesquisa);
+            ClassicAssert.IsNotNull(usuarioPesquisa);
         }
 
         [Test]
         public async Task PesquisarPorLoginSenhaTest()
         {
             Usuario usuarioPesquisa = await _usuarioRepository.PesquisarPorLoginSenha("Teste01", "1234");
-            Assert.IsNotNull(usuarioPesquisa);
+            ClassicAssert.IsNotNull(usuarioPesquisa);
         }
     }
 }

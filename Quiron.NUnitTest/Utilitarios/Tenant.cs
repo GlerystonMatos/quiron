@@ -14,8 +14,8 @@ namespace Quiron.NUnitTest.Utilitarios
             {
                 TenantConfiguration tenantConfiguration = new TenantConfiguration();
                 tenantConfiguration.Name = "NUnitTest";
-                tenantConfiguration.ConnectionStringDados = "Data Source=10.0.0.131\\SQLEXPRESS;Initial Catalog=QuironNUnitTest;Persist Security Info=True;User ID=sa;Password=1234;Encrypt=False";
-                tenantConfiguration.ConnectionStringAuditoria = "Data Source=10.0.0.131\\SQLEXPRESS;Initial Catalog=QuironAuditoriaNUnitTest;Persist Security Info=True;User ID=sa;Password=1234;Encrypt=False";
+                tenantConfiguration.ConnectionStringDados = "Data Source=10.0.0.131;Initial Catalog=QuironNUnitTest;Persist Security Info=True;User ID=sa;Password=1234;Encrypt=False";
+                tenantConfiguration.ConnectionStringAuditoria = "Data Source=10.0.0.131;Initial Catalog=QuironAuditoriaNUnitTest;Persist Security Info=True;User ID=sa;Password=1234;Encrypt=False";
 
                 _tenantService = new TenantService();
                 _tenantService.Set(tenantConfiguration);

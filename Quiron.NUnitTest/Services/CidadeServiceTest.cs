@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Quiron.Domain.Dto;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -33,19 +34,19 @@ namespace Quiron.NUnitTest.Services
         public void CriarTest()
         {
             CidadeDto cidade = new CidadeDto();
-            Assert.DoesNotThrow(() => _cidadeService.Criar(cidade));
+            ClassicAssert.DoesNotThrow(() => _cidadeService.Criar(cidade));
         }
 
         [Test]
         public void AtualizarTest()
         {
             CidadeDto cidade = new CidadeDto();
-            Assert.DoesNotThrow(() => _cidadeService.Atualizar(cidade));
+            ClassicAssert.DoesNotThrow(() => _cidadeService.Atualizar(cidade));
         }
 
         [Test]
         public void RemoverTest()
-            => Assert.DoesNotThrow(() => _cidadeService.Remover(Guid.NewGuid()));
+            => ClassicAssert.DoesNotThrow(() => _cidadeService.Remover(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -58,7 +59,7 @@ namespace Quiron.NUnitTest.Services
             cidades.Add(cidade02);
 
             _cidadeRepository.Setup(r => r.ObterTodos()).Returns(cidades.AsQueryable());
-            Assert.IsNotNull(_cidadeService.ObterTodos());
+            ClassicAssert.IsNotNull(_cidadeService.ObterTodos());
         }
 
         [Test]
@@ -67,7 +68,7 @@ namespace Quiron.NUnitTest.Services
             Cidade cidade = new Cidade(Guid.NewGuid(), "Fortaleza", Guid.NewGuid());
 
             _cidadeRepository.Setup(r => r.PesquisarPorId(cidade.Id)).ReturnsAsync(cidade);
-            Assert.IsNotNull(_cidadeService.PesquisarPorId(cidade.Id));
+            ClassicAssert.IsNotNull(_cidadeService.PesquisarPorId(cidade.Id));
         }
 
         [Test]
@@ -81,7 +82,7 @@ namespace Quiron.NUnitTest.Services
             TenantConfiguration tenant = _tenantService.Get();
 
             _cidadeQuery.Setup(r => r.ObterTodosPorNome(tenant.ConnectionStringDados, cidade.Nome)).ReturnsAsync(cidades.ToArray());
-            Assert.IsNotNull(_cidadeService.ObterTodosPorNome(cidade.Nome));
+            ClassicAssert.IsNotNull(_cidadeService.ObterTodosPorNome(cidade.Nome));
         }
     }
 }

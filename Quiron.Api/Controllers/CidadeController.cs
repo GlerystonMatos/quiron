@@ -55,11 +55,11 @@ namespace Quiron.Api.Controllers
         public async Task<IActionResult> Post(CidadeDto cidade)
         {
             if (!ModelState.IsValid)
-            {
                 throw new QuironException("Os dados para criação são inválidos.");
-            }
 
-            await _cidadeService.Criar(cidade);
+            _cidadeService.Criar(cidade);
+            await _cidadeService.SalvarAlteracoes();
+
             return Ok();
         }
 
@@ -75,16 +75,14 @@ namespace Quiron.Api.Controllers
         public async Task<IActionResult> Put(CidadeDto cidade)
         {
             if (!ModelState.IsValid)
-            {
                 throw new QuironException("Os dados para atualização são inválidos.");
-            }
 
             if ((cidade.Id.ToString().Equals("")) || (await _cidadeService.PesquisarPorId(cidade.Id) == null))
-            {
                 return NotFound();
-            }
 
-            await _cidadeService.Atualizar(cidade);
+            _cidadeService.Atualizar(cidade);
+            await _cidadeService.SalvarAlteracoes();
+
             return Ok();
         }
 
@@ -101,11 +99,11 @@ namespace Quiron.Api.Controllers
         {
             CidadeDto cidade = await _cidadeService.PesquisarPorId(id);
             if (cidade == null)
-            {
                 return NotFound();
-            }
 
-            await _cidadeService.Remover(cidade.Id);
+            _cidadeService.Remover(cidade.Id);
+            await _cidadeService.SalvarAlteracoes();
+
             return Ok();
         }
     }

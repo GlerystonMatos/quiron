@@ -22,27 +22,23 @@ namespace Quiron.Service.Services
             _usuarioRepository = usuarioRepository;
         }
 
-        public async Task Criar(UsuarioDto usuario)
-        {
-            _usuarioRepository.Criar(_mapper.Map<Usuario>(usuario));
-            await _usuarioRepository.SalvarAlteracoes();
-        }
+        public void Criar(UsuarioDto usuario)
+            => _usuarioRepository.Criar(_mapper.Map<Usuario>(usuario));
 
-        public async Task Atualizar(UsuarioDto origem)
+        public async void Atualizar(UsuarioDto origem)
         {
             Usuario destino = await _usuarioRepository.PesquisarPorId(origem.Id);
             _mapper.Map(origem, destino);
-
-            await _usuarioRepository.SalvarAlteracoes();
         }
 
-        public async Task Remover(Guid id)
+        public async void Remover(Guid id)
         {
             Usuario usuario = await _usuarioRepository.PesquisarPorId(id);
             _usuarioRepository.Remover(usuario);
-
-            await _usuarioRepository.SalvarAlteracoes();
         }
+
+        public Task SalvarAlteracoes()
+            => _usuarioRepository.SalvarAlteracoes();
 
         public async Task<UsuarioDto> PesquisarPorId(Guid id)
             => _mapper.Map<UsuarioDto>(await _usuarioRepository.PesquisarPorId(id));

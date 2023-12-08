@@ -27,27 +27,23 @@ namespace Quiron.Service.Services
             _animalRepository = animalRepository;
         }
 
-        public async Task Criar(AnimalDto animal)
-        {
-            _animalRepository.Criar(_mapper.Map<Animal>(animal));
-            await _animalRepository.SalvarAlteracoes();
-        }
+        public void Criar(AnimalDto animal)
+            => _animalRepository.Criar(_mapper.Map<Animal>(animal));
 
-        public async Task Atualizar(AnimalDto origem)
+        public async void Atualizar(AnimalDto origem)
         {
             Animal destino = await _animalRepository.PesquisarPorId(origem.Id);
             _mapper.Map(origem, destino);
-
-            await _animalRepository.SalvarAlteracoes();
         }
 
-        public async Task Remover(Guid id)
+        public async void Remover(Guid id)
         {
             Animal animal = await _animalRepository.PesquisarPorId(id);
             _animalRepository.Remover(animal);
-
-            await _animalRepository.SalvarAlteracoes();
         }
+
+        public Task SalvarAlteracoes()
+            => _animalRepository.SalvarAlteracoes();
 
         public async Task<AnimalDto> PesquisarPorId(Guid id)
             => _mapper.Map<AnimalDto>(await _animalRepository.PesquisarPorId(id));

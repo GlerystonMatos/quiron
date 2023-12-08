@@ -6,11 +6,13 @@ namespace Quiron.Domain.Interfaces.Base
 {
     public interface IService<TModel>
     {
-        Task Criar(TModel model);
+        void Criar(TModel model);
 
-        Task Atualizar(TModel model);
+        void Atualizar(TModel model);
 
-        Task Remover(Guid id);
+        void Remover(Guid id);
+
+        Task SalvarAlteracoes();
 
         Task<TModel> PesquisarPorId(Guid id);
 

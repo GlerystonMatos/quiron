@@ -27,27 +27,23 @@ namespace Quiron.Service.Services
             _cidadeRepository = cidadeRepository;
         }
 
-        public async Task Criar(CidadeDto cidade)
-        {
-            _cidadeRepository.Criar(_mapper.Map<Cidade>(cidade));
-            await _cidadeRepository.SalvarAlteracoes();
-        }
+        public void Criar(CidadeDto cidade)
+            => _cidadeRepository.Criar(_mapper.Map<Cidade>(cidade));
 
-        public async Task Atualizar(CidadeDto origem)
+        public async void Atualizar(CidadeDto origem)
         {
             Cidade destino = await _cidadeRepository.PesquisarPorId(origem.Id);
             _mapper.Map(origem, destino);
-
-            await _cidadeRepository.SalvarAlteracoes();
         }
 
-        public async Task Remover(Guid id)
+        public async void Remover(Guid id)
         {
             Cidade cidade = await _cidadeRepository.PesquisarPorId(id);
             _cidadeRepository.Remover(cidade);
-
-            await _cidadeRepository.SalvarAlteracoes();
         }
+
+        public Task SalvarAlteracoes()
+            => _cidadeRepository.SalvarAlteracoes();
 
         public async Task<CidadeDto> PesquisarPorId(Guid id)
             => _mapper.Map<CidadeDto>(await _cidadeRepository.PesquisarPorId(id));

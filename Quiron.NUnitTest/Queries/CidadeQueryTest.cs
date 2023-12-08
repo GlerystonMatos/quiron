@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Quiron.Data.Dapper.Queries;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Queries;
@@ -25,7 +26,7 @@ namespace Quiron.NUnitTest.Queries
             TenantConfiguration configuration = _tenantService.Get();
             Cidade[] animais = await _cidadeQuery.ObterTodosPorNome(configuration.ConnectionStringDados, "Fortaleza");
 
-            Assert.IsNotNull(animais.Where(a => a.Nome.Equals("Fortaleza")));
+            ClassicAssert.IsNotNull(animais.Where(a => a.Nome.Equals("Fortaleza")));
         }
     }
 }

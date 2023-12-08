@@ -55,11 +55,11 @@ namespace Quiron.Api.Controllers
         public async Task<IActionResult> Post(AnimalDto animal)
         {
             if (!ModelState.IsValid)
-            {
                 throw new QuironException("Os dados para criação são inválidos.");
-            }
 
-            await _animalService.Criar(animal);
+            _animalService.Criar(animal);
+            await _animalService.SalvarAlteracoes();
+
             return Ok();
         }
 
@@ -75,16 +75,14 @@ namespace Quiron.Api.Controllers
         public async Task<IActionResult> Put(AnimalDto animal)
         {
             if (!ModelState.IsValid)
-            {
                 throw new QuironException("Os dados para atualização são inválidos.");
-            }
 
             if ((animal.Id.ToString().Equals("")) || (await _animalService.PesquisarPorId(animal.Id) == null))
-            {
                 return NotFound();
-            }
 
-            await _animalService.Atualizar(animal);
+            _animalService.Atualizar(animal);
+            await _animalService.SalvarAlteracoes();
+
             return Ok();
         }
 
@@ -101,11 +99,11 @@ namespace Quiron.Api.Controllers
         {
             AnimalDto animal = await _animalService.PesquisarPorId(id);
             if (animal == null)
-            {
                 return NotFound();
-            }
 
-            await _animalService.Remover(animal.Id);
+            _animalService.Remover(animal.Id);
+            await _animalService.SalvarAlteracoes();
+
             return Ok();
         }
     }

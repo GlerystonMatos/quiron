@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Quiron.Data.EF.Repositories;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -20,7 +21,7 @@ namespace Quiron.NUnitTest.Repositories
             _estadoRepository.Criar(estado);
 
             Estado novoEstado = await _estadoRepository.PesquisarPorId(estado.Id);
-            Assert.IsNotNull(novoEstado);
+            ClassicAssert.IsNotNull(novoEstado);
         }
 
         [Test]
@@ -33,7 +34,7 @@ namespace Quiron.NUnitTest.Repositories
             await _estadoRepository.SalvarAlteracoes();
 
             Estado? atualizado = _estadoRepository.ObterTodos().Where(e => e.Nome.Equals(estado.Nome) && e.Uf.Equals(estado.Uf)).FirstOrDefault();
-            Assert.IsNotNull(atualizado);
+            ClassicAssert.IsNotNull(atualizado);
 
             estado.Nome = "Ceará";
             estado.Uf = "CE";
@@ -50,7 +51,7 @@ namespace Quiron.NUnitTest.Repositories
             _estadoRepository.Remover(estado);
             Estado estadoRemovido = await _estadoRepository.PesquisarPorId(estado.Id);
 
-            Assert.IsNull(estadoRemovido);
+            ClassicAssert.IsNull(estadoRemovido);
         }
 
         [Test]
@@ -60,7 +61,7 @@ namespace Quiron.NUnitTest.Repositories
             _estadoRepository.Criar(estado);
 
             IQueryable<Estado> estados = _estadoRepository.ObterTodos();
-            Assert.IsNotNull(estados);
+            ClassicAssert.IsNotNull(estados);
         }
 
         [Test]
@@ -70,7 +71,7 @@ namespace Quiron.NUnitTest.Repositories
             _estadoRepository.Criar(estado);
 
             Estado estadoPesquisa = await _estadoRepository.PesquisarPorId(estado.Id);
-            Assert.IsNotNull(estadoPesquisa);
+            ClassicAssert.IsNotNull(estadoPesquisa);
         }
     }
 }

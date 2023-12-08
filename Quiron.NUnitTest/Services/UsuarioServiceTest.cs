@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Quiron.Domain.Dto;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Exception;
@@ -28,19 +29,19 @@ namespace Quiron.NUnitTest.Services
         public void CriarTest()
         {
             UsuarioDto usuario = new UsuarioDto();
-            Assert.DoesNotThrow(() => _usuarioService.Criar(usuario));
+            ClassicAssert.DoesNotThrow(() => _usuarioService.Criar(usuario));
         }
 
         [Test]
         public void AtualizarTest()
         {
             UsuarioDto usuario = new UsuarioDto();
-            Assert.DoesNotThrow(() => _usuarioService.Atualizar(usuario));
+            ClassicAssert.DoesNotThrow(() => _usuarioService.Atualizar(usuario));
         }
 
         [Test]
         public void RemoverTest()
-            => Assert.DoesNotThrow(() => _usuarioService.Remover(Guid.NewGuid()));
+            => ClassicAssert.DoesNotThrow(() => _usuarioService.Remover(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -53,7 +54,7 @@ namespace Quiron.NUnitTest.Services
             usuarios.Add(usuario02);
 
             _usuarioRepository.Setup(r => r.ObterTodos()).Returns(usuarios.AsQueryable());
-            Assert.IsNotNull(_usuarioService.ObterTodos());
+            ClassicAssert.IsNotNull(_usuarioService.ObterTodos());
         }
 
         [Test]
@@ -62,7 +63,7 @@ namespace Quiron.NUnitTest.Services
             Usuario usuario = new Usuario(Guid.NewGuid(), "Teste 05", "Teste 05", "Teste05");
 
             _usuarioRepository.Setup(r => r.PesquisarPorId(usuario.Id)).ReturnsAsync(usuario);
-            Assert.IsNotNull(_usuarioService.PesquisarPorId(usuario.Id));
+            ClassicAssert.IsNotNull(_usuarioService.PesquisarPorId(usuario.Id));
         }
 
         [Test]
@@ -77,10 +78,10 @@ namespace Quiron.NUnitTest.Services
 
             _usuarioRepository.Setup(r => r.PesquisarPorLoginSenha(usuario.Login, usuario.Senha)).ReturnsAsync(usuario);
 
-            QuironException? exception = Assert.ThrowsAsync<QuironException>(() => _usuarioService.ObterUsuarioParaAutenticacao(loginDto));
+            QuironException? exception = ClassicAssert.ThrowsAsync<QuironException>(() => _usuarioService.ObterUsuarioParaAutenticacao(loginDto));
 
             if (exception != null)
-                Assert.IsTrue(exception.Message.Equals("Usuário não localizado."));
+                ClassicAssert.IsTrue(exception.Message.Equals("Usuário não localizado."));
         }
 
         [Test]
@@ -93,7 +94,7 @@ namespace Quiron.NUnitTest.Services
             loginDto.Senha = usuario.Senha;
 
             _usuarioRepository.Setup(r => r.PesquisarPorLoginSenha(usuario.Login, usuario.Senha)).ReturnsAsync(usuario);
-            Assert.IsNotNull(_usuarioService.ObterUsuarioParaAutenticacao(loginDto));
+            ClassicAssert.IsNotNull(_usuarioService.ObterUsuarioParaAutenticacao(loginDto));
         }
     }
 }

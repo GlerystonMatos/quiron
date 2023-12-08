@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Quiron.Domain.Dto;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -33,19 +34,19 @@ namespace Quiron.NUnitTest.Services
         public void CriarTest()
         {
             EstadoDto estado = new EstadoDto();
-            Assert.DoesNotThrow(() => _estadoService.Criar(estado));
+            ClassicAssert.DoesNotThrow(() => _estadoService.Criar(estado));
         }
 
         [Test]
         public void AtualizarTest()
         {
             EstadoDto estado = new EstadoDto();
-            Assert.DoesNotThrow(() => _estadoService.Atualizar(estado));
+            ClassicAssert.DoesNotThrow(() => _estadoService.Atualizar(estado));
         }
 
         [Test]
         public void RemoverTest()
-            => Assert.DoesNotThrow(() => _estadoService.Remover(Guid.NewGuid()));
+            => ClassicAssert.DoesNotThrow(() => _estadoService.Remover(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -58,7 +59,7 @@ namespace Quiron.NUnitTest.Services
             estados.Add(estado02);
 
             _estadoRepository.Setup(r => r.ObterTodos()).Returns(estados.AsQueryable());
-            Assert.IsNotNull(_estadoService.ObterTodos());
+            ClassicAssert.IsNotNull(_estadoService.ObterTodos());
         }
 
         [Test]
@@ -67,7 +68,7 @@ namespace Quiron.NUnitTest.Services
             Estado estado = new Estado(Guid.NewGuid(), "Ceará", "CE");
 
             _estadoRepository.Setup(r => r.PesquisarPorId(estado.Id)).ReturnsAsync(estado);
-            Assert.IsNotNull(_estadoService.PesquisarPorId(estado.Id));
+            ClassicAssert.IsNotNull(_estadoService.PesquisarPorId(estado.Id));
         }
 
         [Test]
@@ -83,7 +84,7 @@ namespace Quiron.NUnitTest.Services
             TenantConfiguration tenant = _tenantService.Get();
 
             _estadoQuery.Setup(r => r.ObterTodosPorUf(tenant.ConnectionStringDados, uf)).ReturnsAsync(estados.ToArray());
-            Assert.IsNotNull(_estadoService.ObterTodosPorUf(uf));
+            ClassicAssert.IsNotNull(_estadoService.ObterTodosPorUf(uf));
         }
     }
 }

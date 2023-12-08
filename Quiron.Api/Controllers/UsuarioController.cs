@@ -43,11 +43,11 @@ namespace Quiron.Api.Controllers
         public async Task<IActionResult> Post(UsuarioDto usuario)
         {
             if (!ModelState.IsValid)
-            {
                 throw new QuironException("Os dados para criação são inválidos.");
-            }
 
-            await _usuarioService.Criar(usuario);
+            _usuarioService.Criar(usuario);
+            await _usuarioService.SalvarAlteracoes();
+
             return Ok();
         }
 
@@ -63,16 +63,14 @@ namespace Quiron.Api.Controllers
         public async Task<IActionResult> Put(UsuarioDto usuario)
         {
             if (!ModelState.IsValid)
-            {
                 throw new QuironException("Os dados para atualização são inválidos.");
-            }
 
             if ((usuario.Id.ToString().Equals("")) || (await _usuarioService.PesquisarPorId(usuario.Id) == null))
-            {
                 return NotFound();
-            }
 
-            await _usuarioService.Atualizar(usuario);
+            _usuarioService.Atualizar(usuario);
+            await _usuarioService.SalvarAlteracoes();
+
             return Ok();
         }
 
@@ -89,11 +87,11 @@ namespace Quiron.Api.Controllers
         {
             UsuarioDto usuario = await _usuarioService.PesquisarPorId(id);
             if (usuario == null)
-            {
                 return NotFound();
-            }
 
-            await _usuarioService.Remover(usuario.Id);
+            _usuarioService.Remover(usuario.Id);
+            await _usuarioService.SalvarAlteracoes();
+
             return Ok();
         }
     }

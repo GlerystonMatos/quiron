@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Moq;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Quiron.Domain.Dto;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -33,19 +34,19 @@ namespace Quiron.NUnitTest.Services
         public void CriarTest()
         {
             AnimalDto animal = new AnimalDto();
-            Assert.DoesNotThrow(() => _animalService.Criar(animal));
+            ClassicAssert.DoesNotThrow(() => _animalService.Criar(animal));
         }
 
         [Test]
         public void AtualizarTest()
         {
             AnimalDto animal = new AnimalDto();
-            Assert.DoesNotThrow(() => _animalService.Atualizar(animal));
+            ClassicAssert.DoesNotThrow(() => _animalService.Atualizar(animal));
         }
 
         [Test]
         public void RemoverTest()
-            => Assert.DoesNotThrow(() => _animalService.Remover(Guid.NewGuid()));
+            => ClassicAssert.DoesNotThrow(() => _animalService.Remover(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -58,7 +59,7 @@ namespace Quiron.NUnitTest.Services
             animais.Add(animal02);
 
             _animalRepository.Setup(r => r.ObterTodos()).Returns(animais.AsQueryable());
-            Assert.IsNotNull(_animalService.ObterTodos());
+            ClassicAssert.IsNotNull(_animalService.ObterTodos());
         }
 
         [Test]
@@ -67,7 +68,7 @@ namespace Quiron.NUnitTest.Services
             Animal animal = new Animal(Guid.NewGuid(), "Coelho");
 
             _animalRepository.Setup(r => r.PesquisarPorId(animal.Id)).ReturnsAsync(animal);
-            Assert.IsNotNull(_animalService.PesquisarPorId(animal.Id));
+            ClassicAssert.IsNotNull(_animalService.PesquisarPorId(animal.Id));
         }
 
         [Test]
@@ -83,7 +84,7 @@ namespace Quiron.NUnitTest.Services
             TenantConfiguration tenant = _tenantService.Get();
 
             _animalQuery.Setup(r => r.ObterTodosPorNome(tenant.ConnectionStringDados, nome)).ReturnsAsync(animais.ToArray());
-            Assert.IsNotNull(_animalService.ObterTodosPorNome(nome));
+            ClassicAssert.IsNotNull(_animalService.ObterTodosPorNome(nome));
         }
     }
 }

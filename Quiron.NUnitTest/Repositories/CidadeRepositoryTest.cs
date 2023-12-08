@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Quiron.Data.EF.Repositories;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -24,7 +25,7 @@ namespace Quiron.NUnitTest.Repositories
             _cidadeRepository.Criar(cidade);
 
             Cidade novoCidade = await _cidadeRepository.PesquisarPorId(cidade.Id);
-            Assert.IsNotNull(novoCidade);
+            ClassicAssert.IsNotNull(novoCidade);
         }
 
         [Test]
@@ -36,7 +37,7 @@ namespace Quiron.NUnitTest.Repositories
             await _cidadeRepository.SalvarAlteracoes();
 
             Cidade? atualizado = _cidadeRepository.ObterTodos().Where(a => a.Nome.Equals(cidade.Nome)).FirstOrDefault();
-            Assert.IsNotNull(atualizado);
+            ClassicAssert.IsNotNull(atualizado);
 
             cidade.Nome = "Fortaleza";
 
@@ -52,7 +53,7 @@ namespace Quiron.NUnitTest.Repositories
             _cidadeRepository.Remover(cidade);
             Cidade cidadeRemovido = await _cidadeRepository.PesquisarPorId(cidade.Id);
 
-            Assert.IsNull(cidadeRemovido);
+            ClassicAssert.IsNull(cidadeRemovido);
         }
 
         [Test]
@@ -62,7 +63,7 @@ namespace Quiron.NUnitTest.Repositories
             _cidadeRepository.Criar(cidade);
 
             IQueryable<Cidade> cidades = _cidadeRepository.ObterTodos();
-            Assert.IsNotNull(cidades);
+            ClassicAssert.IsNotNull(cidades);
         }
 
         [Test]
@@ -72,7 +73,7 @@ namespace Quiron.NUnitTest.Repositories
             _cidadeRepository.Criar(cidade);
 
             Cidade cidadePesquisa = await _cidadeRepository.PesquisarPorId(cidade.Id);
-            Assert.IsNotNull(cidadePesquisa);
+            ClassicAssert.IsNotNull(cidadePesquisa);
         }
     }
 }

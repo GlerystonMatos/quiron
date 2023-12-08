@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using Quiron.Data.EF.Repositories;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -20,7 +21,7 @@ namespace Quiron.NUnitTest.Repositories
             _animalRepository.Criar(animal);
 
             Animal novoAnimal = await _animalRepository.PesquisarPorId(animal.Id);
-            Assert.IsNotNull(novoAnimal);
+            ClassicAssert.IsNotNull(novoAnimal);
         }
 
         [Test]
@@ -32,7 +33,7 @@ namespace Quiron.NUnitTest.Repositories
             await _animalRepository.SalvarAlteracoes();
 
             Animal? atualizado = _animalRepository.ObterTodos().Where(a => a.Nome.Equals(animal.Nome)).FirstOrDefault();
-            Assert.IsNotNull(atualizado);
+            ClassicAssert.IsNotNull(atualizado);
 
             animal.Nome = "Cachorro";
 
@@ -48,7 +49,7 @@ namespace Quiron.NUnitTest.Repositories
             _animalRepository.Remover(animal);
             Animal animalRemovido = await _animalRepository.PesquisarPorId(animal.Id);
 
-            Assert.IsNull(animalRemovido);
+            ClassicAssert.IsNull(animalRemovido);
         }
 
         [Test]
@@ -58,7 +59,7 @@ namespace Quiron.NUnitTest.Repositories
             _animalRepository.Criar(animal);
 
             IQueryable<Animal> animals = _animalRepository.ObterTodos();
-            Assert.IsNotNull(animals);
+            ClassicAssert.IsNotNull(animals);
         }
 
         [Test]
@@ -68,7 +69,7 @@ namespace Quiron.NUnitTest.Repositories
             _animalRepository.Criar(animal);
 
             Animal animalPesquisa = await _animalRepository.PesquisarPorId(animal.Id);
-            Assert.IsNotNull(animalPesquisa);
+            ClassicAssert.IsNotNull(animalPesquisa);
         }
     }
 }
