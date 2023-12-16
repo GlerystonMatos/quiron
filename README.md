@@ -1,4 +1,4 @@
-# <img alt="quiron" height="40" src="./logo.png" style="margin-bottom: -9px !important"> Quiron_new
+# <img alt="quiron" height="40" src="./logo.png" style="margin-bottom: -9px !important"> Quiron
 Projeto para desenvolver os conhecimentos em C# e .NET Core.
 
 # ⚙️ Recursos:
