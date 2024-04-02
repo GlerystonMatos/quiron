@@ -44,6 +44,7 @@ namespace Quiron.Api.Controllers
         public async Task<IActionResult> Authenticate([FromBody] LoginDto login)
         {
             TenantConfiguration tenant = _options.Value.Tenants.Where(t => t.Name.Equals(login.Tenant)).SingleOrDefault();
+
             if (tenant == null)
                 tenant = _options.Value.Tenants.Where(t => t.Name.Equals("Tenant00")).SingleOrDefault();
 
@@ -52,10 +53,10 @@ namespace Quiron.Api.Controllers
             _logger.LogInformation("User: " + login.Login);
             _logger.LogInformation("Tenant: " + tenant.Name);
 
-            UsuarioDto usuarioDto = await _usuarioService.ObterUsuarioParaAutenticacao(login);
-            _logger.LogInformation("Login realizado: " + usuarioDto.Nome);
+            UsuarioDto usuario = await _usuarioService.ObterUsuarioParaAutenticacaoAsync(login);
+            _logger.LogInformation("Login realizado: " + usuario.Nome);
 
-            return Ok(new TokenDto(AccessToken.GenerateToken(usuarioDto, tenant.Name)));
+            return Ok(new TokenDto(AccessToken.GenerateToken(usuario, tenant.Name)));
         }
 
         /// <summary>

@@ -41,8 +41,8 @@ namespace Quiron.Api.Controllers
         [HttpGet("{nome}")]
         [ProducesResponseType(typeof(AnimalDto[]), 200)]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public async Task<IActionResult> ObterTodosPorNome(string nome)
-            => Ok(await _animalService.ObterTodosPorNome(nome));
+        public async Task<IActionResult> ObterTodosPorNomeAsync(string nome)
+            => Ok(await _animalService.ObterTodosPorNomeAsync(nome));
 
         /// <summary>
         /// Criar
@@ -58,7 +58,7 @@ namespace Quiron.Api.Controllers
                 throw new QuironException("Os dados para criação são inválidos.");
 
             _animalService.Criar(animal);
-            await _animalService.SalvarAlteracoes();
+            await _animalService.SalvarAlteracoesAsync();
 
             return Ok();
         }
@@ -77,11 +77,11 @@ namespace Quiron.Api.Controllers
             if (!ModelState.IsValid)
                 throw new QuironException("Os dados para atualização são inválidos.");
 
-            if ((animal.Id.ToString().Equals("")) || (await _animalService.PesquisarPorId(animal.Id) == null))
+            if ((animal.Id.ToString().Equals("")) || (await _animalService.PesquisarPorIdAsync(animal.Id) == null))
                 return NotFound();
 
-            _animalService.Atualizar(animal);
-            await _animalService.SalvarAlteracoes();
+            await _animalService.AtualizarAsync(animal);
+            await _animalService.SalvarAlteracoesAsync();
 
             return Ok();
         }
@@ -97,12 +97,13 @@ namespace Quiron.Api.Controllers
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            AnimalDto animal = await _animalService.PesquisarPorId(id);
+            AnimalDto animal = await _animalService.PesquisarPorIdAsync(id);
+
             if (animal == null)
                 return NotFound();
 
-            _animalService.Remover(animal.Id);
-            await _animalService.SalvarAlteracoes();
+            await _animalService.RemoverAsync(animal.Id);
+            await _animalService.SalvarAlteracoesAsync();
 
             return Ok();
         }

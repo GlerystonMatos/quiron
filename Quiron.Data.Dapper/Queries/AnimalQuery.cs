@@ -8,7 +8,7 @@ namespace Quiron.Data.Dapper.Queries
 {
     public class AnimalQuery : IAnimalQuery
     {
-        public async Task<Animal[]> ObterTodosPorNome(string connectionString, string nome)
+        public async Task<Animal[]> ObterTodosPorNomeAsync(string connectionString, string nome)
         {
             using (SqlConnection sqlConnection = new SqlConnection(connectionString))
             {

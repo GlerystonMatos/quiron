@@ -14,7 +14,7 @@ namespace Quiron.Data.EF.Repositories
         {
         }
 
-        public Task<Usuario> PesquisarPorLoginSenha(string login, string senha)
+        public Task<Usuario> PesquisarPorLoginSenhaAsync(string login, string senha)
             => _context.Set<Usuario>().Where(u =>
                 u.Login.ToUpper().Equals(login.ToUpper()) &&
                 u.Senha.ToUpper().Equals(senha.ToUpper()))

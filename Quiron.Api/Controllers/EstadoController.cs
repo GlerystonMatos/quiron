@@ -41,8 +41,8 @@ namespace Quiron.Api.Controllers
         [HttpGet("{uf}")]
         [ProducesResponseType(typeof(EstadoDto[]), 200)]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public async Task<IActionResult> ObterTodosPorUf(string uf)
-            => Ok(await _estadoService.ObterTodosPorUf(uf));
+        public async Task<IActionResult> ObterTodosPorUfAsync(string uf)
+            => Ok(await _estadoService.ObterTodosPorUfAsync(uf));
 
         /// <summary>
         /// Criar
@@ -58,7 +58,7 @@ namespace Quiron.Api.Controllers
                 throw new QuironException("Os dados para criação são inválidos.");
 
             _estadoService.Criar(estado);
-            await _estadoService.SalvarAlteracoes();
+            await _estadoService.SalvarAlteracoesAsync();
 
             return Ok();
         }
@@ -77,11 +77,11 @@ namespace Quiron.Api.Controllers
             if (!ModelState.IsValid)
                 throw new QuironException("Os dados para atualização são inválidos.");
 
-            if ((estado.Id.ToString().Equals("")) || (await _estadoService.PesquisarPorId(estado.Id) == null))
+            if ((estado.Id.ToString().Equals("")) || (await _estadoService.PesquisarPorIdAsync(estado.Id) == null))
                 return NotFound();
 
-            _estadoService.Atualizar(estado);
-            await _estadoService.SalvarAlteracoes();
+            await _estadoService.AtualizarAsync(estado);
+            await _estadoService.SalvarAlteracoesAsync();
 
             return Ok();
         }
@@ -97,12 +97,13 @@ namespace Quiron.Api.Controllers
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            EstadoDto estado = await _estadoService.PesquisarPorId(id);
+            EstadoDto estado = await _estadoService.PesquisarPorIdAsync(id);
+
             if (estado == null)
                 return NotFound();
 
-            _estadoService.Remover(estado.Id);
-            await _estadoService.SalvarAlteracoes();
+            await _estadoService.RemoverAsync(estado.Id);
+            await _estadoService.SalvarAlteracoesAsync();
 
             return Ok();
         }

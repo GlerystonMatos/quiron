@@ -25,33 +25,33 @@ namespace Quiron.Service.Services
         public void Criar(UsuarioDto usuario)
             => _usuarioRepository.Criar(_mapper.Map<Usuario>(usuario));
 
-        public async void Atualizar(UsuarioDto origem)
+        public async Task AtualizarAsync(UsuarioDto origem)
         {
-            Usuario destino = await _usuarioRepository.PesquisarPorId(origem.Id);
+            Usuario destino = await _usuarioRepository.PesquisarPorIdAsync(origem.Id);
             _mapper.Map(origem, destino);
         }
 
-        public async void Remover(Guid id)
+        public async Task RemoverAsync(Guid id)
         {
-            Usuario usuario = await _usuarioRepository.PesquisarPorId(id);
+            Usuario usuario = await _usuarioRepository.PesquisarPorIdAsync(id);
             _usuarioRepository.Remover(usuario);
         }
 
-        public Task SalvarAlteracoes()
-            => _usuarioRepository.SalvarAlteracoes();
+        public Task SalvarAlteracoesAsync()
+            => _usuarioRepository.SalvarAlteracoesAsync();
 
-        public async Task<UsuarioDto> PesquisarPorId(Guid id)
-            => _mapper.Map<UsuarioDto>(await _usuarioRepository.PesquisarPorId(id));
+        public async Task<UsuarioDto> PesquisarPorIdAsync(Guid id)
+            => _mapper.Map<UsuarioDto>(await _usuarioRepository.PesquisarPorIdAsync(id));
 
         public IQueryable<UsuarioDto> ObterTodos()
             => _usuarioRepository.ObterTodos().ProjectTo<UsuarioDto>(_mapper.ConfigurationProvider);
 
-        private async Task<UsuarioDto> PesquisarPorLoginSenha(string login, string senha)
-            => _mapper.Map<UsuarioDto>(await _usuarioRepository.PesquisarPorLoginSenha(login, senha));
+        private async Task<UsuarioDto> PesquisarPorLoginSenhaAsync(string login, string senha)
+            => _mapper.Map<UsuarioDto>(await _usuarioRepository.PesquisarPorLoginSenhaAsync(login, senha));
 
-        public async Task<UsuarioDto> ObterUsuarioParaAutenticacao(LoginDto login)
+        public async Task<UsuarioDto> ObterUsuarioParaAutenticacaoAsync(LoginDto login)
         {
-            UsuarioDto usuario = await PesquisarPorLoginSenha(login.Login, login.Senha);
+            UsuarioDto usuario = await PesquisarPorLoginSenhaAsync(login.Login, login.Senha);
 
             if (usuario == null)
                 throw new QuironException("Usuário não localizado.");

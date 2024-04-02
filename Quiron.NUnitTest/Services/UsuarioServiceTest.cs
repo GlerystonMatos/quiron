@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Legacy;
 using Quiron.Domain.Dto;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Exception;
@@ -27,21 +26,15 @@ namespace Quiron.NUnitTest.Services
 
         [Test]
         public void CriarTest()
-        {
-            UsuarioDto usuario = new UsuarioDto();
-            ClassicAssert.DoesNotThrow(() => _usuarioService.Criar(usuario));
-        }
+            => Assert.DoesNotThrow(() => _usuarioService.Criar(new UsuarioDto()));
 
         [Test]
-        public void AtualizarTest()
-        {
-            UsuarioDto usuario = new UsuarioDto();
-            ClassicAssert.DoesNotThrow(() => _usuarioService.Atualizar(usuario));
-        }
+        public void AtualizarAsyncTest()
+            => Assert.DoesNotThrowAsync(() => _usuarioService.AtualizarAsync(new UsuarioDto()));
 
         [Test]
-        public void RemoverTest()
-            => ClassicAssert.DoesNotThrow(() => _usuarioService.Remover(Guid.NewGuid()));
+        public void RemoverAsyncTest()
+            => Assert.DoesNotThrowAsync(() => _usuarioService.RemoverAsync(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -54,20 +47,20 @@ namespace Quiron.NUnitTest.Services
             usuarios.Add(usuario02);
 
             _usuarioRepository.Setup(r => r.ObterTodos()).Returns(usuarios.AsQueryable());
-            ClassicAssert.IsNotNull(_usuarioService.ObterTodos());
+            Assert.That(_usuarioService.ObterTodos(), Is.Not.Null);
         }
 
         [Test]
-        public void PesquisarPorIdTest()
+        public void PesquisarPorIdAsyncTest()
         {
             Usuario usuario = new Usuario(Guid.NewGuid(), "Teste 05", "Teste 05", "Teste05");
 
-            _usuarioRepository.Setup(r => r.PesquisarPorId(usuario.Id)).ReturnsAsync(usuario);
-            ClassicAssert.IsNotNull(_usuarioService.PesquisarPorId(usuario.Id));
+            _usuarioRepository.Setup(r => r.PesquisarPorIdAsync(usuario.Id)).ReturnsAsync(usuario);
+            Assert.ThatAsync(() => _usuarioService.PesquisarPorIdAsync(usuario.Id), Is.Not.Null);
         }
 
         [Test]
-        public void ObterUsuarioParaAutenticacaoNaoLocalizadoTest()
+        public void ObterUsuarioParaAutenticacaoAsyncNaoLocalizadoTest()
         {
             Usuario usuario = new Usuario(Guid.NewGuid(), "Teste 06", "Teste 06", "Teste06");
 
@@ -76,16 +69,16 @@ namespace Quiron.NUnitTest.Services
             loginDto.Senha = "Teste";
             loginDto.Tenant = "Teste";
 
-            _usuarioRepository.Setup(r => r.PesquisarPorLoginSenha(usuario.Login, usuario.Senha)).ReturnsAsync(usuario);
+            _usuarioRepository.Setup(r => r.PesquisarPorLoginSenhaAsync(usuario.Login, usuario.Senha)).ReturnsAsync(usuario);
 
-            QuironException? exception = ClassicAssert.ThrowsAsync<QuironException>(() => _usuarioService.ObterUsuarioParaAutenticacao(loginDto));
+            QuironException? exception = Assert.ThrowsAsync<QuironException>(() => _usuarioService.ObterUsuarioParaAutenticacaoAsync(loginDto));
 
             if (exception != null)
-                ClassicAssert.IsTrue(exception.Message.Equals("Usuário não localizado."));
+                Assert.That(exception.Message.Equals("Usuário não localizado."), Is.True);
         }
 
         [Test]
-        public void ObterUsuarioParaAutenticacaoTest()
+        public void ObterUsuarioParaAutenticacaoAsyncTest()
         {
             Usuario usuario = new Usuario(Guid.NewGuid(), "Teste 07", "Teste 07", "Teste07");
 
@@ -93,8 +86,8 @@ namespace Quiron.NUnitTest.Services
             loginDto.Login = usuario.Login;
             loginDto.Senha = usuario.Senha;
 
-            _usuarioRepository.Setup(r => r.PesquisarPorLoginSenha(usuario.Login, usuario.Senha)).ReturnsAsync(usuario);
-            ClassicAssert.IsNotNull(_usuarioService.ObterUsuarioParaAutenticacao(loginDto));
+            _usuarioRepository.Setup(r => r.PesquisarPorLoginSenhaAsync(usuario.Login, usuario.Senha)).ReturnsAsync(usuario);
+            Assert.ThatAsync(() => _usuarioService.ObterUsuarioParaAutenticacaoAsync(loginDto), Is.Not.Null);
         }
     }
 }

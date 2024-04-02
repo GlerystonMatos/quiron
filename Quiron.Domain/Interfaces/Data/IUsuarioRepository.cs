@@ -6,6 +6,6 @@ namespace Quiron.Domain.Interfaces.Data
 {
     public interface IUsuarioRepository : IRepository<Usuario>
     {
-        Task<Usuario> PesquisarPorLoginSenha(string login, string senha);
+        Task<Usuario> PesquisarPorLoginSenhaAsync(string login, string senha);
     }
 }

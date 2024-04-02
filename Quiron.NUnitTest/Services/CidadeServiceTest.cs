@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Legacy;
 using Quiron.Domain.Dto;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -32,21 +31,15 @@ namespace Quiron.NUnitTest.Services
 
         [Test]
         public void CriarTest()
-        {
-            CidadeDto cidade = new CidadeDto();
-            ClassicAssert.DoesNotThrow(() => _cidadeService.Criar(cidade));
-        }
+            => Assert.DoesNotThrow(() => _cidadeService.Criar(new CidadeDto()));
 
         [Test]
-        public void AtualizarTest()
-        {
-            CidadeDto cidade = new CidadeDto();
-            ClassicAssert.DoesNotThrow(() => _cidadeService.Atualizar(cidade));
-        }
+        public void AtualizarAsyncTest()
+            => Assert.DoesNotThrowAsync(() => _cidadeService.AtualizarAsync(new CidadeDto()));
 
         [Test]
-        public void RemoverTest()
-            => ClassicAssert.DoesNotThrow(() => _cidadeService.Remover(Guid.NewGuid()));
+        public void RemoverAsyncTest()
+            => Assert.DoesNotThrowAsync(() => _cidadeService.RemoverAsync(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -59,20 +52,20 @@ namespace Quiron.NUnitTest.Services
             cidades.Add(cidade02);
 
             _cidadeRepository.Setup(r => r.ObterTodos()).Returns(cidades.AsQueryable());
-            ClassicAssert.IsNotNull(_cidadeService.ObterTodos());
+            Assert.That(_cidadeService.ObterTodos(), Is.Not.Null);
         }
 
         [Test]
-        public void PesquisarPorIdTest()
+        public void PesquisarPorIdAsyncTest()
         {
             Cidade cidade = new Cidade(Guid.NewGuid(), "Fortaleza", Guid.NewGuid());
 
-            _cidadeRepository.Setup(r => r.PesquisarPorId(cidade.Id)).ReturnsAsync(cidade);
-            ClassicAssert.IsNotNull(_cidadeService.PesquisarPorId(cidade.Id));
+            _cidadeRepository.Setup(r => r.PesquisarPorIdAsync(cidade.Id)).ReturnsAsync(cidade);
+            Assert.ThatAsync(() => _cidadeService.PesquisarPorIdAsync(cidade.Id), Is.Not.Null);
         }
 
         [Test]
-        public void ObterTodosPorNomeTest()
+        public void ObterTodosPorNomeAsyncTest()
         {
             Cidade cidade = new Cidade(Guid.NewGuid(), "Fortaleza", Guid.NewGuid());
 
@@ -81,8 +74,8 @@ namespace Quiron.NUnitTest.Services
 
             TenantConfiguration tenant = _tenantService.Get();
 
-            _cidadeQuery.Setup(r => r.ObterTodosPorNome(tenant.ConnectionStringDados, cidade.Nome)).ReturnsAsync(cidades.ToArray());
-            ClassicAssert.IsNotNull(_cidadeService.ObterTodosPorNome(cidade.Nome));
+            _cidadeQuery.Setup(r => r.ObterTodosPorNomeAsync(tenant.ConnectionStringDados, cidade.Nome)).ReturnsAsync(cidades.ToArray());
+            Assert.ThatAsync(() => _cidadeService.ObterTodosPorNomeAsync(cidade.Nome), Is.Not.Null);
         }
     }
 }

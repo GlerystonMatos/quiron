@@ -9,7 +9,7 @@ namespace Quiron.Api.Configuracoes
     {
         public static void AddJwtSetup(this IServiceCollection services)
         {
-            var key = Encoding.ASCII.GetBytes(TokenConfig.SecretKey);
+            byte[] key = Encoding.ASCII.GetBytes(TokenConfig.SecretKey);
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -22,6 +22,7 @@ namespace Quiron.Api.Configuracoes
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = false,
+                    ValidateLifetime = true,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),

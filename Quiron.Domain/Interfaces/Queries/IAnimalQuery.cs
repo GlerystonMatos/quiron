@@ -5,6 +5,6 @@ namespace Quiron.Domain.Interfaces.Queries
 {
     public interface IAnimalQuery
     {
-        Task<Animal[]> ObterTodosPorNome(string connectionString, string nome);
+        Task<Animal[]> ObterTodosPorNomeAsync(string connectionString, string nome);
     }
 }

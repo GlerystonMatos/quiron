@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Legacy;
 using Quiron.Data.EF.Repositories;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -20,24 +19,24 @@ namespace Quiron.NUnitTest.Repositories
             Animal animal = new Animal(Guid.NewGuid(), "Peixe");
             _animalRepository.Criar(animal);
 
-            Animal novoAnimal = await _animalRepository.PesquisarPorId(animal.Id);
-            ClassicAssert.IsNotNull(novoAnimal);
+            Animal novoAnimal = await _animalRepository.PesquisarPorIdAsync(animal.Id);
+            Assert.That(novoAnimal, Is.Not.Null);
         }
 
         [Test]
         public async Task AtualizarTest()
         {
-            Animal animal = await _animalRepository.PesquisarPorId(Guid.Parse("1dfc4a8d-7ed1-443c-9cc7-ac71ea9d003b"));
+            Animal animal = await _animalRepository.PesquisarPorIdAsync(Guid.Parse("1dfc4a8d-7ed1-443c-9cc7-ac71ea9d003b"));
             animal.Nome = "Urso";
 
-            await _animalRepository.SalvarAlteracoes();
+            await _animalRepository.SalvarAlteracoesAsync();
 
             Animal? atualizado = _animalRepository.ObterTodos().Where(a => a.Nome.Equals(animal.Nome)).FirstOrDefault();
-            ClassicAssert.IsNotNull(atualizado);
+            Assert.That(atualizado, Is.Not.Null);
 
             animal.Nome = "Cachorro";
 
-            await _animalRepository.SalvarAlteracoes();
+            await _animalRepository.SalvarAlteracoesAsync();
         }
 
         [Test]
@@ -47,9 +46,9 @@ namespace Quiron.NUnitTest.Repositories
             _animalRepository.Criar(animal);
 
             _animalRepository.Remover(animal);
-            Animal animalRemovido = await _animalRepository.PesquisarPorId(animal.Id);
+            Animal animalRemovido = await _animalRepository.PesquisarPorIdAsync(animal.Id);
 
-            ClassicAssert.IsNull(animalRemovido);
+            Assert.That(animalRemovido, Is.Null);
         }
 
         [Test]
@@ -59,17 +58,17 @@ namespace Quiron.NUnitTest.Repositories
             _animalRepository.Criar(animal);
 
             IQueryable<Animal> animals = _animalRepository.ObterTodos();
-            ClassicAssert.IsNotNull(animals);
+            Assert.That(animals, Is.Not.Null);
         }
 
         [Test]
-        public async Task PesquisarPorIdTest()
+        public async Task PesquisarPorIdAsyncTest()
         {
             Animal animal = new Animal(Guid.NewGuid(), "Tatu");
             _animalRepository.Criar(animal);
 
-            Animal animalPesquisa = await _animalRepository.PesquisarPorId(animal.Id);
-            ClassicAssert.IsNotNull(animalPesquisa);
+            Animal animalPesquisa = await _animalRepository.PesquisarPorIdAsync(animal.Id);
+            Assert.That(animalPesquisa, Is.Not.Null);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Legacy;
 using Quiron.Domain.Dto;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -32,21 +31,15 @@ namespace Quiron.NUnitTest.Services
 
         [Test]
         public void CriarTest()
-        {
-            EstadoDto estado = new EstadoDto();
-            ClassicAssert.DoesNotThrow(() => _estadoService.Criar(estado));
-        }
+            => Assert.DoesNotThrow(() => _estadoService.Criar(new EstadoDto()));
 
         [Test]
-        public void AtualizarTest()
-        {
-            EstadoDto estado = new EstadoDto();
-            ClassicAssert.DoesNotThrow(() => _estadoService.Atualizar(estado));
-        }
+        public void AtualizarAsyncTest()
+            => Assert.DoesNotThrow(() => _estadoService.AtualizarAsync(new EstadoDto()));
 
         [Test]
-        public void RemoverTest()
-            => ClassicAssert.DoesNotThrow(() => _estadoService.Remover(Guid.NewGuid()));
+        public void RemoverAsyncTest()
+            => Assert.DoesNotThrow(() => _estadoService.RemoverAsync(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -59,20 +52,20 @@ namespace Quiron.NUnitTest.Services
             estados.Add(estado02);
 
             _estadoRepository.Setup(r => r.ObterTodos()).Returns(estados.AsQueryable());
-            ClassicAssert.IsNotNull(_estadoService.ObterTodos());
+            Assert.That(_estadoService.ObterTodos(), Is.Not.Null);
         }
 
         [Test]
-        public void PesquisarPorIdTest()
+        public void PesquisarPorIdAsyncTest()
         {
             Estado estado = new Estado(Guid.NewGuid(), "Ceará", "CE");
 
-            _estadoRepository.Setup(r => r.PesquisarPorId(estado.Id)).ReturnsAsync(estado);
-            ClassicAssert.IsNotNull(_estadoService.PesquisarPorId(estado.Id));
+            _estadoRepository.Setup(r => r.PesquisarPorIdAsync(estado.Id)).ReturnsAsync(estado);
+            Assert.ThatAsync(() => _estadoService.PesquisarPorIdAsync(estado.Id), Is.Not.Null);
         }
 
         [Test]
-        public void ObterTodosPorUfTest()
+        public void ObterTodosPorUfAsyncTest()
         {
             Estado estado = new Estado(Guid.NewGuid(), "Ceará", "CE");
 
@@ -83,8 +76,8 @@ namespace Quiron.NUnitTest.Services
 
             TenantConfiguration tenant = _tenantService.Get();
 
-            _estadoQuery.Setup(r => r.ObterTodosPorUf(tenant.ConnectionStringDados, uf)).ReturnsAsync(estados.ToArray());
-            ClassicAssert.IsNotNull(_estadoService.ObterTodosPorUf(uf));
+            _estadoQuery.Setup(r => r.ObterTodosPorUfAsync(tenant.ConnectionStringDados, uf)).ReturnsAsync(estados.ToArray());
+            Assert.ThatAsync(() => _estadoService.ObterTodosPorUfAsync(uf), Is.Not.Null);
         }
     }
 }

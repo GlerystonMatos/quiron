@@ -30,31 +30,31 @@ namespace Quiron.Service.Services
         public void Criar(CidadeDto cidade)
             => _cidadeRepository.Criar(_mapper.Map<Cidade>(cidade));
 
-        public async void Atualizar(CidadeDto origem)
+        public async Task AtualizarAsync(CidadeDto origem)
         {
-            Cidade destino = await _cidadeRepository.PesquisarPorId(origem.Id);
+            Cidade destino = await _cidadeRepository.PesquisarPorIdAsync(origem.Id);
             _mapper.Map(origem, destino);
         }
 
-        public async void Remover(Guid id)
+        public async Task RemoverAsync(Guid id)
         {
-            Cidade cidade = await _cidadeRepository.PesquisarPorId(id);
+            Cidade cidade = await _cidadeRepository.PesquisarPorIdAsync(id);
             _cidadeRepository.Remover(cidade);
         }
 
-        public Task SalvarAlteracoes()
-            => _cidadeRepository.SalvarAlteracoes();
+        public Task SalvarAlteracoesAsync()
+            => _cidadeRepository.SalvarAlteracoesAsync();
 
-        public async Task<CidadeDto> PesquisarPorId(Guid id)
-            => _mapper.Map<CidadeDto>(await _cidadeRepository.PesquisarPorId(id));
+        public async Task<CidadeDto> PesquisarPorIdAsync(Guid id)
+            => _mapper.Map<CidadeDto>(await _cidadeRepository.PesquisarPorIdAsync(id));
 
         public IQueryable<CidadeDto> ObterTodos()
             => _cidadeRepository.ObterTodos().ProjectTo<CidadeDto>(_mapper.ConfigurationProvider);
 
-        public async Task<CidadeDto[]> ObterTodosPorNome(string nome)
+        public async Task<CidadeDto[]> ObterTodosPorNomeAsync(string nome)
         {
             TenantConfiguration tenant = _tenantService.Get();
-            return _mapper.Map<CidadeDto[]>(await _cidadeQuery.ObterTodosPorNome(tenant.ConnectionStringDados, nome));
+            return _mapper.Map<CidadeDto[]>(await _cidadeQuery.ObterTodosPorNomeAsync(tenant.ConnectionStringDados, nome));
         }
     }
 }

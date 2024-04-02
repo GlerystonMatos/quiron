@@ -8,13 +8,13 @@ namespace Quiron.Domain.Interfaces.Base
     {
         void Criar(TModel model);
 
-        void Atualizar(TModel model);
+        Task AtualizarAsync(TModel model);
 
-        void Remover(Guid id);
+        Task RemoverAsync(Guid id);
 
-        Task SalvarAlteracoes();
+        Task SalvarAlteracoesAsync();
 
-        Task<TModel> PesquisarPorId(Guid id);
+        Task<TModel> PesquisarPorIdAsync(Guid id);
 
         IQueryable<TModel> ObterTodos();
     }

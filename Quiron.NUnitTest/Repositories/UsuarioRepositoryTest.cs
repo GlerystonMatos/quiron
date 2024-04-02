@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Legacy;
 using Quiron.Data.EF.Repositories;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -20,24 +19,24 @@ namespace Quiron.NUnitTest.Repositories
             Usuario usuario = new Usuario(Guid.NewGuid(), "Teste 03", "Teste 03", "Teste03");
             _usuarioRepository.Criar(usuario);
 
-            Usuario novoUsuario = await _usuarioRepository.PesquisarPorId(usuario.Id);
-            ClassicAssert.IsNotNull(novoUsuario);
+            Usuario novoUsuario = await _usuarioRepository.PesquisarPorIdAsync(usuario.Id);
+            Assert.That(novoUsuario, Is.Not.Null);
         }
 
         [Test]
         public async Task AtualizarTest()
         {
-            Usuario usuario = await _usuarioRepository.PesquisarPorId(Guid.Parse("d78a657f-66fa-43f2-a535-212e6bfb6630"));
+            Usuario usuario = await _usuarioRepository.PesquisarPorIdAsync(Guid.Parse("d78a657f-66fa-43f2-a535-212e6bfb6630"));
             usuario.Nome = "Teste 04";
 
-            await _usuarioRepository.SalvarAlteracoes();
+            await _usuarioRepository.SalvarAlteracoesAsync();
 
             Usuario? atualizado = _usuarioRepository.ObterTodos().Where(a => a.Nome.Equals(usuario.Nome)).FirstOrDefault();
-            ClassicAssert.IsNotNull(atualizado);
+            Assert.That(atualizado, Is.Not.Null);
 
             usuario.Nome = "Teste 01";
 
-            await _usuarioRepository.SalvarAlteracoes();
+            await _usuarioRepository.SalvarAlteracoesAsync();
         }
 
         [Test]
@@ -47,9 +46,9 @@ namespace Quiron.NUnitTest.Repositories
             _usuarioRepository.Criar(usuario);
 
             _usuarioRepository.Remover(usuario);
-            Usuario usuarioRemovido = await _usuarioRepository.PesquisarPorId(usuario.Id);
+            Usuario usuarioRemovido = await _usuarioRepository.PesquisarPorIdAsync(usuario.Id);
 
-            ClassicAssert.IsNull(usuarioRemovido);
+            Assert.That(usuarioRemovido, Is.Null);
         }
 
         [Test]
@@ -59,24 +58,24 @@ namespace Quiron.NUnitTest.Repositories
             _usuarioRepository.Criar(usuario);
 
             IQueryable<Usuario> usuarios = _usuarioRepository.ObterTodos();
-            ClassicAssert.IsNotNull(usuarios);
+            Assert.That(usuarios, Is.Not.Null);
         }
 
         [Test]
-        public async Task PesquisarPorIdTest()
+        public async Task PesquisarPorIdAsyncTest()
         {
             Usuario usuario = new Usuario(Guid.NewGuid(), "Teste 07", "Teste 07", "Teste07");
             _usuarioRepository.Criar(usuario);
 
-            Usuario usuarioPesquisa = await _usuarioRepository.PesquisarPorId(usuario.Id);
-            ClassicAssert.IsNotNull(usuarioPesquisa);
+            Usuario usuarioPesquisa = await _usuarioRepository.PesquisarPorIdAsync(usuario.Id);
+            Assert.That(usuarioPesquisa, Is.Not.Null);
         }
 
         [Test]
-        public async Task PesquisarPorLoginSenhaTest()
+        public async Task PesquisarPorLoginSenhaAsyncTest()
         {
-            Usuario usuarioPesquisa = await _usuarioRepository.PesquisarPorLoginSenha("Teste01", "1234");
-            ClassicAssert.IsNotNull(usuarioPesquisa);
+            Usuario usuarioPesquisa = await _usuarioRepository.PesquisarPorLoginSenhaAsync("Teste01", "1234");
+            Assert.That(usuarioPesquisa, Is.Not.Null);
         }
     }
 }

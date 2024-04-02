@@ -41,8 +41,8 @@ namespace Quiron.Api.Controllers
         [HttpGet("{nome}")]
         [ProducesResponseType(typeof(CidadeDto[]), 200)]
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
-        public async Task<IActionResult> ObterTodosPorNome(string nome)
-            => Ok(await _cidadeService.ObterTodosPorNome(nome));
+        public async Task<IActionResult> ObterTodosPorNomeAsync(string nome)
+            => Ok(await _cidadeService.ObterTodosPorNomeAsync(nome));
 
         /// <summary>
         /// Criar
@@ -58,7 +58,7 @@ namespace Quiron.Api.Controllers
                 throw new QuironException("Os dados para criação são inválidos.");
 
             _cidadeService.Criar(cidade);
-            await _cidadeService.SalvarAlteracoes();
+            await _cidadeService.SalvarAlteracoesAsync();
 
             return Ok();
         }
@@ -77,11 +77,11 @@ namespace Quiron.Api.Controllers
             if (!ModelState.IsValid)
                 throw new QuironException("Os dados para atualização são inválidos.");
 
-            if ((cidade.Id.ToString().Equals("")) || (await _cidadeService.PesquisarPorId(cidade.Id) == null))
+            if ((cidade.Id.ToString().Equals("")) || (await _cidadeService.PesquisarPorIdAsync(cidade.Id) == null))
                 return NotFound();
 
-            _cidadeService.Atualizar(cidade);
-            await _cidadeService.SalvarAlteracoes();
+            await _cidadeService.AtualizarAsync(cidade);
+            await _cidadeService.SalvarAlteracoesAsync();
 
             return Ok();
         }
@@ -97,12 +97,13 @@ namespace Quiron.Api.Controllers
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            CidadeDto cidade = await _cidadeService.PesquisarPorId(id);
+            CidadeDto cidade = await _cidadeService.PesquisarPorIdAsync(id);
+
             if (cidade == null)
                 return NotFound();
 
-            _cidadeService.Remover(cidade.Id);
-            await _cidadeService.SalvarAlteracoes();
+            await _cidadeService.RemoverAsync(cidade.Id);
+            await _cidadeService.SalvarAlteracoesAsync();
 
             return Ok();
         }

@@ -30,31 +30,31 @@ namespace Quiron.Service.Services
         public void Criar(AnimalDto animal)
             => _animalRepository.Criar(_mapper.Map<Animal>(animal));
 
-        public async void Atualizar(AnimalDto origem)
+        public async Task AtualizarAsync(AnimalDto origem)
         {
-            Animal destino = await _animalRepository.PesquisarPorId(origem.Id);
+            Animal destino = await _animalRepository.PesquisarPorIdAsync(origem.Id);
             _mapper.Map(origem, destino);
         }
 
-        public async void Remover(Guid id)
+        public async Task RemoverAsync(Guid id)
         {
-            Animal animal = await _animalRepository.PesquisarPorId(id);
+            Animal animal = await _animalRepository.PesquisarPorIdAsync(id);
             _animalRepository.Remover(animal);
         }
 
-        public Task SalvarAlteracoes()
-            => _animalRepository.SalvarAlteracoes();
+        public Task SalvarAlteracoesAsync()
+            => _animalRepository.SalvarAlteracoesAsync();
 
-        public async Task<AnimalDto> PesquisarPorId(Guid id)
-            => _mapper.Map<AnimalDto>(await _animalRepository.PesquisarPorId(id));
+        public async Task<AnimalDto> PesquisarPorIdAsync(Guid id)
+            => _mapper.Map<AnimalDto>(await _animalRepository.PesquisarPorIdAsync(id));
 
         public IQueryable<AnimalDto> ObterTodos()
             => _animalRepository.ObterTodos().ProjectTo<AnimalDto>(_mapper.ConfigurationProvider);
 
-        public async Task<AnimalDto[]> ObterTodosPorNome(string nome)
+        public async Task<AnimalDto[]> ObterTodosPorNomeAsync(string nome)
         {
             TenantConfiguration tenant = _tenantService.Get();
-            return _mapper.Map<AnimalDto[]>(await _animalQuery.ObterTodosPorNome(tenant.ConnectionStringDados, nome));
+            return _mapper.Map<AnimalDto[]>(await _animalQuery.ObterTodosPorNomeAsync(tenant.ConnectionStringDados, nome));
         }
     }
 }

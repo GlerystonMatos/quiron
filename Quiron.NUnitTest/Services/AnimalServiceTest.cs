@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Moq;
 using NUnit.Framework;
-using NUnit.Framework.Legacy;
 using Quiron.Domain.Dto;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -32,21 +31,15 @@ namespace Quiron.NUnitTest.Services
 
         [Test]
         public void CriarTest()
-        {
-            AnimalDto animal = new AnimalDto();
-            ClassicAssert.DoesNotThrow(() => _animalService.Criar(animal));
-        }
+            => Assert.DoesNotThrow(() => _animalService.Criar(new AnimalDto()));
 
         [Test]
-        public void AtualizarTest()
-        {
-            AnimalDto animal = new AnimalDto();
-            ClassicAssert.DoesNotThrow(() => _animalService.Atualizar(animal));
-        }
+        public void AtualizarAsyncTest()
+            => Assert.DoesNotThrowAsync(() => _animalService.AtualizarAsync(new AnimalDto()));
 
         [Test]
-        public void RemoverTest()
-            => ClassicAssert.DoesNotThrow(() => _animalService.Remover(Guid.NewGuid()));
+        public void RemoverAsyncTest()
+            => Assert.DoesNotThrow(() => _animalService.RemoverAsync(Guid.NewGuid()));
 
         [Test]
         public void ObterTodosTest()
@@ -59,20 +52,20 @@ namespace Quiron.NUnitTest.Services
             animais.Add(animal02);
 
             _animalRepository.Setup(r => r.ObterTodos()).Returns(animais.AsQueryable());
-            ClassicAssert.IsNotNull(_animalService.ObterTodos());
+            Assert.That(_animalService.ObterTodos(), Is.Not.Null);
         }
 
         [Test]
-        public void PesquisarPorIdTest()
+        public void PesquisarPorIdAsyncTest()
         {
             Animal animal = new Animal(Guid.NewGuid(), "Coelho");
 
-            _animalRepository.Setup(r => r.PesquisarPorId(animal.Id)).ReturnsAsync(animal);
-            ClassicAssert.IsNotNull(_animalService.PesquisarPorId(animal.Id));
+            _animalRepository.Setup(r => r.PesquisarPorIdAsync(animal.Id)).ReturnsAsync(animal);
+            Assert.ThatAsync(() => _animalService.PesquisarPorIdAsync(animal.Id), Is.Not.Null);
         }
 
         [Test]
-        public void ObterTodosPorNomeTest()
+        public void ObterTodosPorNomeAsyncTest()
         {
             Animal animal = new Animal(Guid.NewGuid(), "Babuíno");
 
@@ -83,8 +76,8 @@ namespace Quiron.NUnitTest.Services
 
             TenantConfiguration tenant = _tenantService.Get();
 
-            _animalQuery.Setup(r => r.ObterTodosPorNome(tenant.ConnectionStringDados, nome)).ReturnsAsync(animais.ToArray());
-            ClassicAssert.IsNotNull(_animalService.ObterTodosPorNome(nome));
+            _animalQuery.Setup(r => r.ObterTodosPorNomeAsync(tenant.ConnectionStringDados, nome)).ReturnsAsync(animais.ToArray());
+            Assert.ThatAsync(() => _animalService.ObterTodosPorNomeAsync(nome), Is.Not.Null);
         }
     }
 }

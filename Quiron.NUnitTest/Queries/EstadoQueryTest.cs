@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Legacy;
 using Quiron.Data.Dapper.Queries;
-using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Queries;
 using Quiron.Domain.Interfaces.Services;
 using Quiron.Domain.Tenant;
@@ -21,12 +19,10 @@ namespace Quiron.NUnitTest.Queries
         }
 
         [Test]
-        public async Task ObterTodosPorNomeTest()
+        public void ObterTodosPorUfAsyncTest()
         {
             TenantConfiguration configuration = _tenantService.Get();
-            Estado[] animais = await _estadoQuery.ObterTodosPorUf(configuration.ConnectionStringDados, "CE");
-
-            ClassicAssert.IsNotNull(animais.Where(a => a.Nome.Equals("Ceará")));
+            Assert.ThatAsync(() => _estadoQuery.ObterTodosPorUfAsync(configuration.ConnectionStringDados, "CE"), Is.Not.Null);
         }
     }
 }

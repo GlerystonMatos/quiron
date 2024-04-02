@@ -6,6 +6,6 @@ namespace Quiron.Domain.Interfaces.Services
 {
     public interface IAnimalService : IService<AnimalDto>
     {
-        Task<AnimalDto[]> ObterTodosPorNome(string nome);
+        Task<AnimalDto[]> ObterTodosPorNomeAsync(string nome);
     }
 }

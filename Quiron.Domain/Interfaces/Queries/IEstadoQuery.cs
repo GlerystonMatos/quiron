@@ -5,6 +5,6 @@ namespace Quiron.Domain.Interfaces.Queries
 {
     public interface IEstadoQuery
     {
-        Task<Estado[]> ObterTodosPorUf(string connectionString, string uf);
+        Task<Estado[]> ObterTodosPorUfAsync(string connectionString, string uf);
     }
 }

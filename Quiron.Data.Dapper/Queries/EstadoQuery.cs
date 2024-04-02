@@ -8,7 +8,7 @@ namespace Quiron.Data.Dapper.Queries
 {
     public class EstadoQuery : IEstadoQuery
     {
-        public async Task<Estado[]> ObterTodosPorUf(string connectionString, string uf)
+        public async Task<Estado[]> ObterTodosPorUfAsync(string connectionString, string uf)
         {
             using (var connection = new SqlConnection(connectionString))
             {

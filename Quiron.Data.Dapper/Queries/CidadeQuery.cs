@@ -8,7 +8,7 @@ namespace Quiron.Data.Dapper.Queries
 {
     public class CidadeQuery : ICidadeQuery
     {
-        public async Task<Cidade[]> ObterTodosPorNome(string connectionString, string nome)
+        public async Task<Cidade[]> ObterTodosPorNomeAsync(string connectionString, string nome)
         {
             using (var connection = new SqlConnection(connectionString))
             {

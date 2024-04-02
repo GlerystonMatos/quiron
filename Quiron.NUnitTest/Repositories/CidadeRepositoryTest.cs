@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using NUnit.Framework.Legacy;
 using Quiron.Data.EF.Repositories;
 using Quiron.Domain.Entities;
 using Quiron.Domain.Interfaces.Data;
@@ -24,24 +23,24 @@ namespace Quiron.NUnitTest.Repositories
             Cidade cidade = new Cidade(Guid.NewGuid(), "Aquiraz", _idCeara);
             _cidadeRepository.Criar(cidade);
 
-            Cidade novoCidade = await _cidadeRepository.PesquisarPorId(cidade.Id);
-            ClassicAssert.IsNotNull(novoCidade);
+            Cidade novoCidade = await _cidadeRepository.PesquisarPorIdAsync(cidade.Id);
+            Assert.That(novoCidade, Is.Not.Null);
         }
 
         [Test]
         public async Task AtualizarTest()
         {
-            Cidade cidade = await _cidadeRepository.PesquisarPorId(Guid.Parse("373fad00-4ace-4c53-abbd-4fa11212cd88"));
+            Cidade cidade = await _cidadeRepository.PesquisarPorIdAsync(Guid.Parse("373fad00-4ace-4c53-abbd-4fa11212cd88"));
             cidade.Nome = "Aracati";
 
-            await _cidadeRepository.SalvarAlteracoes();
+            await _cidadeRepository.SalvarAlteracoesAsync();
 
             Cidade? atualizado = _cidadeRepository.ObterTodos().Where(a => a.Nome.Equals(cidade.Nome)).FirstOrDefault();
-            ClassicAssert.IsNotNull(atualizado);
+            Assert.That(atualizado, Is.Not.Null);
 
             cidade.Nome = "Fortaleza";
 
-            await _cidadeRepository.SalvarAlteracoes();
+            await _cidadeRepository.SalvarAlteracoesAsync();
         }
 
         [Test]
@@ -51,9 +50,9 @@ namespace Quiron.NUnitTest.Repositories
             _cidadeRepository.Criar(cidade);
 
             _cidadeRepository.Remover(cidade);
-            Cidade cidadeRemovido = await _cidadeRepository.PesquisarPorId(cidade.Id);
+            Cidade cidadeRemovido = await _cidadeRepository.PesquisarPorIdAsync(cidade.Id);
 
-            ClassicAssert.IsNull(cidadeRemovido);
+            Assert.That(cidadeRemovido, Is.Null);
         }
 
         [Test]
@@ -63,17 +62,17 @@ namespace Quiron.NUnitTest.Repositories
             _cidadeRepository.Criar(cidade);
 
             IQueryable<Cidade> cidades = _cidadeRepository.ObterTodos();
-            ClassicAssert.IsNotNull(cidades);
+            Assert.That(cidades, Is.Not.Null);
         }
 
         [Test]
-        public async Task PesquisarPorIdTest()
+        public async Task PesquisarPorIdAsyncTest()
         {
             Cidade cidade = new Cidade(Guid.NewGuid(), "Juazeiro do Norte", _idCeara);
             _cidadeRepository.Criar(cidade);
 
-            Cidade cidadePesquisa = await _cidadeRepository.PesquisarPorId(cidade.Id);
-            ClassicAssert.IsNotNull(cidadePesquisa);
+            Cidade cidadePesquisa = await _cidadeRepository.PesquisarPorIdAsync(cidade.Id);
+            Assert.That(cidadePesquisa, Is.Not.Null);
         }
     }
 }

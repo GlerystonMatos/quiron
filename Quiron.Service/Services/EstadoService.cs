@@ -30,31 +30,31 @@ namespace Quiron.Service.Services
         public void Criar(EstadoDto estado)
             => _estadoRepository.Criar(_mapper.Map<Estado>(estado));
 
-        public async void Atualizar(EstadoDto origem)
+        public async Task AtualizarAsync(EstadoDto origem)
         {
-            Estado destino = await _estadoRepository.PesquisarPorId(origem.Id);
+            Estado destino = await _estadoRepository.PesquisarPorIdAsync(origem.Id);
             _mapper.Map(origem, destino);
         }
 
-        public async void Remover(Guid id)
+        public async Task RemoverAsync(Guid id)
         {
-            Estado estado = await _estadoRepository.PesquisarPorId(id);
+            Estado estado = await _estadoRepository.PesquisarPorIdAsync(id);
             _estadoRepository.Remover(estado);
         }
 
-        public Task SalvarAlteracoes()
-            => _estadoRepository.SalvarAlteracoes();
+        public Task SalvarAlteracoesAsync()
+            => _estadoRepository.SalvarAlteracoesAsync();
 
-        public async Task<EstadoDto> PesquisarPorId(Guid id)
-            => _mapper.Map<EstadoDto>(await _estadoRepository.PesquisarPorId(id));
+        public async Task<EstadoDto> PesquisarPorIdAsync(Guid id)
+            => _mapper.Map<EstadoDto>(await _estadoRepository.PesquisarPorIdAsync(id));
 
         public IQueryable<EstadoDto> ObterTodos()
             => _estadoRepository.ObterTodos().ProjectTo<EstadoDto>(_mapper.ConfigurationProvider);
 
-        public async Task<EstadoDto[]> ObterTodosPorUf(string uf)
+        public async Task<EstadoDto[]> ObterTodosPorUfAsync(string uf)
         {
             TenantConfiguration tenant = _tenantService.Get();
-            return _mapper.Map<EstadoDto[]>(await _estadoQuery.ObterTodosPorUf(tenant.ConnectionStringDados, uf));
+            return _mapper.Map<EstadoDto[]>(await _estadoQuery.ObterTodosPorUfAsync(tenant.ConnectionStringDados, uf));
         }
     }
 }

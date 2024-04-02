@@ -29,15 +29,11 @@ namespace Quiron.Api.Middleware
 
             Claim clain = context.User.Claims.Where(c => c.Type.Equals("tenant")).SingleOrDefault();
             if (clain != null)
-            {
                 tenant = _options.Value.Tenants.Where(t => t.Name.Equals(clain.Value)).SingleOrDefault();
-            }
 
             clain = context.User.Claims.Where(c => c.Type.Equals(ClaimTypes.Name)).SingleOrDefault();
             if (clain != null)
-            {
                 user = clain.Value;
-            }
 
             if (tenant != null)
             {

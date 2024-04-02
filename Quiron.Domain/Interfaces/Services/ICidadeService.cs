@@ -6,6 +6,6 @@ namespace Quiron.Domain.Interfaces.Services
 {
     public interface ICidadeService : IService<CidadeDto>
     {
-        Task<CidadeDto[]> ObterTodosPorNome(string nome);
+        Task<CidadeDto[]> ObterTodosPorNomeAsync(string nome);
     }
 }

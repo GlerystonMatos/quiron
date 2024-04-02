@@ -10,9 +10,7 @@ namespace Quiron.Api.Filter
             foreach (var item in context.SchemaRepository.Schemas)
             {
                 if ((item.Key.Contains("Edm")) || (item.Key.Contains("OData")))
-                {
                     context.SchemaRepository.Schemas.Remove(item.Key);
-                }
             }
         }
     }

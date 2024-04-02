@@ -6,9 +6,9 @@ namespace Quiron.NUnitTest.Utilitarios
     {
         public void Seed(DbContext context)
         {
-            context.Database.EnsureDeleted();
-            context.Database.EnsureCreated();
-            context.SaveChanges();
+            context.Database.EnsureDeletedAsync();
+            context.Database.EnsureCreatedAsync();
+            context.SaveChangesAsync();
         }
     }
 }

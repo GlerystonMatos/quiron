@@ -46,7 +46,7 @@ namespace Quiron.Api.Controllers
                 throw new QuironException("Os dados para criação são inválidos.");
 
             _usuarioService.Criar(usuario);
-            await _usuarioService.SalvarAlteracoes();
+            await _usuarioService.SalvarAlteracoesAsync();
 
             return Ok();
         }
@@ -65,11 +65,11 @@ namespace Quiron.Api.Controllers
             if (!ModelState.IsValid)
                 throw new QuironException("Os dados para atualização são inválidos.");
 
-            if ((usuario.Id.ToString().Equals("")) || (await _usuarioService.PesquisarPorId(usuario.Id) == null))
+            if ((usuario.Id.ToString().Equals("")) || (await _usuarioService.PesquisarPorIdAsync(usuario.Id) == null))
                 return NotFound();
 
-            _usuarioService.Atualizar(usuario);
-            await _usuarioService.SalvarAlteracoes();
+            await _usuarioService.AtualizarAsync(usuario);
+            await _usuarioService.SalvarAlteracoesAsync();
 
             return Ok();
         }
@@ -85,12 +85,13 @@ namespace Quiron.Api.Controllers
         [ProducesResponseType(typeof(ExceptionMessage), 400)]
         public async Task<IActionResult> Delete(Guid id)
         {
-            UsuarioDto usuario = await _usuarioService.PesquisarPorId(id);
+            UsuarioDto usuario = await _usuarioService.PesquisarPorIdAsync(id);
+
             if (usuario == null)
                 return NotFound();
 
-            _usuarioService.Remover(usuario.Id);
-            await _usuarioService.SalvarAlteracoes();
+            await _usuarioService.RemoverAsync(usuario.Id);
+            await _usuarioService.SalvarAlteracoesAsync();
 
             return Ok();
         }

@@ -6,6 +6,6 @@ namespace Quiron.Domain.Interfaces.Services
 {
     public interface IEstadoService : IService<EstadoDto>
     {
-        Task<EstadoDto[]> ObterTodosPorUf(string uf);
+        Task<EstadoDto[]> ObterTodosPorUfAsync(string uf);
     }
 }

@@ -6,6 +6,6 @@ namespace Quiron.Domain.Interfaces.Services
 {
     public interface IUsuarioService : IService<UsuarioDto>
     {
-        Task<UsuarioDto> ObterUsuarioParaAutenticacao(LoginDto login);
+        Task<UsuarioDto> ObterUsuarioParaAutenticacaoAsync(LoginDto login);
     }
 }

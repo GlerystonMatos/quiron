@@ -21,10 +21,10 @@ namespace Quiron.Data.EF.Base
         public void Remover(TModel model)
             => _context.Set<TModel>().Remove(model);
 
-        public Task SalvarAlteracoes()
+        public Task SalvarAlteracoesAsync()
             => _context.SaveChangesAsync();
 
-        public ValueTask<TModel> PesquisarPorId(Guid id)
+        public ValueTask<TModel> PesquisarPorIdAsync(Guid id)
             => _context.Set<TModel>().FindAsync(id);
 
         public IQueryable<TModel> ObterTodos()

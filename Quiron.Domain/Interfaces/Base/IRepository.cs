@@ -10,9 +10,9 @@ namespace Quiron.Domain.Interfaces.Base
 
         void Remover(TModel model);
 
-        Task SalvarAlteracoes();
+        Task SalvarAlteracoesAsync();
 
-        ValueTask<TModel> PesquisarPorId(Guid id);
+        ValueTask<TModel> PesquisarPorIdAsync(Guid id);
 
         IQueryable<TModel> ObterTodos();
     }

@@ -10,9 +10,7 @@ namespace Quiron.Api.Filter
             foreach (var apiDescription in context.ApiDescriptions)
             {
                 if (apiDescription.RelativePath.Contains("OData"))
-                {
                     swaggerDoc.Paths.Remove("/" + apiDescription.RelativePath);
-                }
             }
         }
     }
